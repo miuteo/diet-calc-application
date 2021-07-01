@@ -12,7 +12,7 @@
 
 eureka:
   instance:
-    hostname: multicultural-crown-35243.herokuapp.com
+    hostname: filidiet.herokuapp.com
     non-secure-port: 80
     prefer-ip-address: false
 

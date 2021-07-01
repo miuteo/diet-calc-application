@@ -44,7 +44,7 @@
     "clientTheme": "none",
     "clientThemeVariant": "",
     "reactive": false,
-    "herokuAppName": "multicultural-crown-35243",
+    "herokuAppName": "filidiet",
     "herokuDeployType": "git",
     "herokuJavaVersion": "11"
   },
