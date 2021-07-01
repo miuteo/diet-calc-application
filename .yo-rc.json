@@ -47,6 +47,9 @@
     "applicationIndex": 0,
     "entities": ["FoodNutritionalValue", "Food", "Meal", "UserDetails"],
     "lastLiquibaseTimestamp": 1625160914000
+    "herokuAppName": "filidiet",
+    "herokuDeployType": "git",
+    "herokuJavaVersion": "11"
   },
   "git-provider": "GitHub",
   "git-company": "miuteo",
