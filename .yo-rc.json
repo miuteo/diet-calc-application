@@ -5,7 +5,7 @@
     "baseName": "dietCalcApplication",
     "packageName": "com.miu.teo",
     "packageFolder": "com/miu/teo",
-    "serverPort": 8080,
+    "serverPort": "8080",
     "serviceDiscoveryType": false,
     "authenticationType": "jwt",
     "cacheProvider": "ehcache",
@@ -43,7 +43,10 @@
     "devServerPort": 4200,
     "clientTheme": "none",
     "clientThemeVariant": "",
-    "reactive": false
+    "reactive": false,
+    "applicationIndex": 0,
+    "entities": ["FoodNutritionalValue", "Food", "Meal", "UserDetails"],
+    "lastLiquibaseTimestamp": 1625160914000
   },
   "git-provider": "GitHub",
   "git-company": "miuteo",
