@@ -1,0 +1,42 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="food">
+      <h2 data-cy="foodDetailsHeading"><span jhiTranslate="dietCalcApplicationApp.food.detail.title">Food</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="dietCalcApplicationApp.food.id">Id</span></dt>
+        <dd>
+          <span>{{ food.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="dietCalcApplicationApp.food.di">Di</span></dt>
+        <dd>
+          <span>{{ food.di | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="dietCalcApplicationApp.food.quantity">Quantity</span></dt>
+        <dd>
+          <span>{{ food.quantity }}</span>
+        </dd>
+        <dt><span jhiTranslate="dietCalcApplicationApp.food.meal">Meal</span></dt>
+        <dd>
+          <div *ngIf="food.meal">
+            <a [routerLink]="['/meal', food.meal?.id, 'view']">{{ food.meal?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/food', food.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

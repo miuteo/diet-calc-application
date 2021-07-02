@@ -1,0 +1,34 @@
+{
+  "dietCalcApplicationApp": {
+    "foodNutritionalValue": {
+      "home": {
+        "title": "Food Nutritional Values",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Food Nutritional Value",
+        "createOrEditLabel": "Create or edit a Food Nutritional Value",
+        "notFound": "No Food Nutritional Values found"
+      },
+      "created": "A new Food Nutritional Value is created with identifier {{ param }}",
+      "updated": "A Food Nutritional Value is updated with identifier {{ param }}",
+      "deleted": "A Food Nutritional Value is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Food Nutritional Value {{ id }}?"
+      },
+      "detail": {
+        "title": "Food Nutritional Value"
+      },
+      "id": "Id",
+      "di": "Di",
+      "barcode": "Barcode",
+      "protein": "Protein",
+      "proteinCal": "Protein Cal",
+      "fat": "Fat",
+      "fatCal": "Fat Cal",
+      "carbohydrate": "Carbohydrate",
+      "carbohydrateCal": "Carbohydrate Cal",
+      "quantity": "Quantity",
+      "isProteinPowder": "Is Protein Powder",
+      "foodNutritionalValue": "Food Nutritional Value"
+    }
+  }
+}

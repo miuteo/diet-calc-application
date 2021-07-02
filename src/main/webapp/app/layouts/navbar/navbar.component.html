@@ -42,6 +42,54 @@
           </span>
         </a>
         <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="entity-menu">
+          <li>
+            <a
+              class="dropdown-item"
+              routerLink="food-nutritional-value"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              (click)="collapseNavbar()"
+            >
+              <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+              <span jhiTranslate="global.menu.entities.foodNutritionalValue">Food Nutritional Value</span>
+            </a>
+          </li>
+          <li>
+            <a
+              class="dropdown-item"
+              routerLink="food"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              (click)="collapseNavbar()"
+            >
+              <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+              <span jhiTranslate="global.menu.entities.food">Food</span>
+            </a>
+          </li>
+          <li>
+            <a
+              class="dropdown-item"
+              routerLink="meal"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              (click)="collapseNavbar()"
+            >
+              <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+              <span jhiTranslate="global.menu.entities.meal">Meal</span>
+            </a>
+          </li>
+          <li>
+            <a
+              class="dropdown-item"
+              routerLink="user-details"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              (click)="collapseNavbar()"
+            >
+              <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+              <span jhiTranslate="global.menu.entities.userDetails">User Details</span>
+            </a>
+          </li>
           <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
         </ul>
       </li>
