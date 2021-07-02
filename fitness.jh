@@ -55,4 +55,7 @@ relationship OneToMany {
   Meal to Food{meal}
 
 }
-    
+
+relationship OneToOne{
+	User{userDetails} to UserDetails
+}
