@@ -1,0 +1,32 @@
+{
+  "name": "Meal",
+  "fields": [
+    {
+      "fieldName": "id",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "mealTime",
+      "fieldType": "MealName",
+      "fieldValues": "MORNING,PRELAUNCH,LAUNCH,PREDINNER,DINNER,AFTERDINNER"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "food",
+      "otherEntityRelationshipName": "meal",
+      "relationshipName": "food"
+    }
+  ],
+  "entityTableName": "meal",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": ["dietCalcApplication"],
+  "changelogDate": "20210702132655"
+}

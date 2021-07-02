@@ -1,0 +1,94 @@
+<div>
+  <h2 id="page-heading" data-cy="UserStatusHeading">
+    <span jhiTranslate="dietCalcApplicationApp.userStatus.home.title">User Statuses</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="dietCalcApplicationApp.userStatus.home.refreshListLabel">Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-user-status"
+        [routerLink]="['/user-status/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="dietCalcApplicationApp.userStatus.home.createLabel"> Create a new User Status </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="userStatuses?.length === 0">
+    <span jhiTranslate="dietCalcApplicationApp.userStatus.home.notFound">No userStatuses found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="userStatuses && userStatuses.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr>
+          <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
+          <th scope="col"><span jhiTranslate="dietCalcApplicationApp.userStatus.weight">Weight</span></th>
+          <th scope="col"><span jhiTranslate="dietCalcApplicationApp.userStatus.proteinNeed">Protein Need</span></th>
+          <th scope="col"><span jhiTranslate="dietCalcApplicationApp.userStatus.calProteinNeed">Cal Protein Need</span></th>
+          <th scope="col"><span jhiTranslate="dietCalcApplicationApp.userStatus.fatNeed">Fat Need</span></th>
+          <th scope="col"><span jhiTranslate="dietCalcApplicationApp.userStatus.calFatNeed">Cal Fat Need</span></th>
+          <th scope="col"><span jhiTranslate="dietCalcApplicationApp.userStatus.carbohydrateNeed">Carbohydrate Need</span></th>
+          <th scope="col"><span jhiTranslate="dietCalcApplicationApp.userStatus.calCarbohydrateNeed">Cal Carbohydrate Need</span></th>
+          <th scope="col"><span jhiTranslate="dietCalcApplicationApp.userStatus.user">User</span></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let userStatus of userStatuses; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/user-status', userStatus.id, 'view']">{{ userStatus.id }}</a>
+          </td>
+          <td>{{ userStatus.weight }}</td>
+          <td>{{ userStatus.proteinNeed }}</td>
+          <td>{{ userStatus.calProteinNeed }}</td>
+          <td>{{ userStatus.fatNeed }}</td>
+          <td>{{ userStatus.calFatNeed }}</td>
+          <td>{{ userStatus.carbohydrateNeed }}</td>
+          <td>{{ userStatus.calCarbohydrateNeed }}</td>
+          <td>
+            {{ userStatus.user?.id }}
+          </td>
+          <td class="text-right">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/user-status', userStatus.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/user-status', userStatus.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(userStatus)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
