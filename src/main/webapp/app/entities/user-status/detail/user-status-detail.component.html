@@ -1,0 +1,60 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="userStatus">
+      <h2 data-cy="userStatusDetailsHeading"><span jhiTranslate="dietCalcApplicationApp.userStatus.detail.title">User Status</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ userStatus.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="dietCalcApplicationApp.userStatus.weight">Weight</span></dt>
+        <dd>
+          <span>{{ userStatus.weight }}</span>
+        </dd>
+        <dt><span jhiTranslate="dietCalcApplicationApp.userStatus.proteinNeed">Protein Need</span></dt>
+        <dd>
+          <span>{{ userStatus.proteinNeed }}</span>
+        </dd>
+        <dt><span jhiTranslate="dietCalcApplicationApp.userStatus.calProteinNeed">Cal Protein Need</span></dt>
+        <dd>
+          <span>{{ userStatus.calProteinNeed }}</span>
+        </dd>
+        <dt><span jhiTranslate="dietCalcApplicationApp.userStatus.fatNeed">Fat Need</span></dt>
+        <dd>
+          <span>{{ userStatus.fatNeed }}</span>
+        </dd>
+        <dt><span jhiTranslate="dietCalcApplicationApp.userStatus.calFatNeed">Cal Fat Need</span></dt>
+        <dd>
+          <span>{{ userStatus.calFatNeed }}</span>
+        </dd>
+        <dt><span jhiTranslate="dietCalcApplicationApp.userStatus.carbohydrateNeed">Carbohydrate Need</span></dt>
+        <dd>
+          <span>{{ userStatus.carbohydrateNeed }}</span>
+        </dd>
+        <dt><span jhiTranslate="dietCalcApplicationApp.userStatus.calCarbohydrateNeed">Cal Carbohydrate Need</span></dt>
+        <dd>
+          <span>{{ userStatus.calCarbohydrateNeed }}</span>
+        </dd>
+        <dt><span jhiTranslate="dietCalcApplicationApp.userStatus.user">User</span></dt>
+        <dd>
+          <span>{{ userStatus.user?.id }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/user-status', userStatus.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>
