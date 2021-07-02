@@ -5,7 +5,7 @@
     "baseName": "dietCalcApplication",
     "packageName": "com.miu.teo",
     "packageFolder": "com/miu/teo",
-    "serverPort": "8080",
+    "serverPort": 8080,
     "serviceDiscoveryType": false,
     "authenticationType": "jwt",
     "cacheProvider": "ehcache",
@@ -46,10 +46,7 @@
     "reactive": false,
     "herokuAppName": "filidiet",
     "herokuDeployType": "git",
-    "herokuJavaVersion": "11",
-    "applicationIndex": 0,
-    "entities": ["FoodNutritionalValue", "Food", "Meal", "UserDetails"],
-    "lastLiquibaseTimestamp": 1625215116000
+    "herokuJavaVersion": "11"
   },
   "git-provider": "GitHub",
   "git-company": "miuteo",
