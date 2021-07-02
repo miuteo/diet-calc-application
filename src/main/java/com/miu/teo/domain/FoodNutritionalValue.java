@@ -24,29 +24,29 @@ public class FoodNutritionalValue implements Serializable {
     @Column(name = "di")
     private Instant di;
 
-    @Column(name = "barcode")
-    private String barcode;
+    @Column(name = "name")
+    private String name;
 
     @Column(name = "protein")
-    private Integer protein;
+    private Double protein;
 
     @Column(name = "protein_cal")
-    private Integer proteinCal;
+    private Double proteinCal;
 
     @Column(name = "fat")
-    private Integer fat;
+    private Double fat;
 
     @Column(name = "fat_cal")
-    private Integer fatCal;
+    private Double fatCal;
 
     @Column(name = "carbohydrate")
-    private Integer carbohydrate;
+    private Double carbohydrate;
 
     @Column(name = "carbohydrate_cal")
-    private Integer carbohydrateCal;
+    private Double carbohydrateCal;
 
     @Column(name = "quantity")
-    private Integer quantity;
+    private Double quantity;
 
     @Column(name = "is_protein_powder")
     private Boolean isProteinPowder;
@@ -82,107 +82,107 @@ public class FoodNutritionalValue implements Serializable {
         this.di = di;
     }
 
-    public String getBarcode() {
-        return this.barcode;
+    public String getName() {
+        return this.name;
     }
 
-    public FoodNutritionalValue barcode(String barcode) {
-        this.barcode = barcode;
+    public FoodNutritionalValue name(String name) {
+        this.name = name;
         return this;
     }
 
-    public void setBarcode(String barcode) {
-        this.barcode = barcode;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Integer getProtein() {
+    public Double getProtein() {
         return this.protein;
     }
 
-    public FoodNutritionalValue protein(Integer protein) {
+    public FoodNutritionalValue protein(Double protein) {
         this.protein = protein;
         return this;
     }
 
-    public void setProtein(Integer protein) {
+    public void setProtein(Double protein) {
         this.protein = protein;
     }
 
-    public Integer getProteinCal() {
+    public Double getProteinCal() {
         return this.proteinCal;
     }
 
-    public FoodNutritionalValue proteinCal(Integer proteinCal) {
+    public FoodNutritionalValue proteinCal(Double proteinCal) {
         this.proteinCal = proteinCal;
         return this;
     }
 
-    public void setProteinCal(Integer proteinCal) {
+    public void setProteinCal(Double proteinCal) {
         this.proteinCal = proteinCal;
     }
 
-    public Integer getFat() {
+    public Double getFat() {
         return this.fat;
     }
 
-    public FoodNutritionalValue fat(Integer fat) {
+    public FoodNutritionalValue fat(Double fat) {
         this.fat = fat;
         return this;
     }
 
-    public void setFat(Integer fat) {
+    public void setFat(Double fat) {
         this.fat = fat;
     }
 
-    public Integer getFatCal() {
+    public Double getFatCal() {
         return this.fatCal;
     }
 
-    public FoodNutritionalValue fatCal(Integer fatCal) {
+    public FoodNutritionalValue fatCal(Double fatCal) {
         this.fatCal = fatCal;
         return this;
     }
 
-    public void setFatCal(Integer fatCal) {
+    public void setFatCal(Double fatCal) {
         this.fatCal = fatCal;
     }
 
-    public Integer getCarbohydrate() {
+    public Double getCarbohydrate() {
         return this.carbohydrate;
     }
 
-    public FoodNutritionalValue carbohydrate(Integer carbohydrate) {
+    public FoodNutritionalValue carbohydrate(Double carbohydrate) {
         this.carbohydrate = carbohydrate;
         return this;
     }
 
-    public void setCarbohydrate(Integer carbohydrate) {
+    public void setCarbohydrate(Double carbohydrate) {
         this.carbohydrate = carbohydrate;
     }
 
-    public Integer getCarbohydrateCal() {
+    public Double getCarbohydrateCal() {
         return this.carbohydrateCal;
     }
 
-    public FoodNutritionalValue carbohydrateCal(Integer carbohydrateCal) {
+    public FoodNutritionalValue carbohydrateCal(Double carbohydrateCal) {
         this.carbohydrateCal = carbohydrateCal;
         return this;
     }
 
-    public void setCarbohydrateCal(Integer carbohydrateCal) {
+    public void setCarbohydrateCal(Double carbohydrateCal) {
         this.carbohydrateCal = carbohydrateCal;
     }
 
-    public Integer getQuantity() {
+    public Double getQuantity() {
         return this.quantity;
     }
 
-    public FoodNutritionalValue quantity(Integer quantity) {
+    public FoodNutritionalValue quantity(Double quantity) {
         this.quantity = quantity;
         return this;
     }
 
-    public void setQuantity(Integer quantity) {
+    public void setQuantity(Double quantity) {
         this.quantity = quantity;
     }
 
@@ -237,7 +237,7 @@ public class FoodNutritionalValue implements Serializable {
         return "FoodNutritionalValue{" +
             "id=" + getId() +
             ", di='" + getDi() + "'" +
-            ", barcode='" + getBarcode() + "'" +
+            ", name='" + getName() + "'" +
             ", protein=" + getProtein() +
             ", proteinCal=" + getProteinCal() +
             ", fat=" + getFat() +

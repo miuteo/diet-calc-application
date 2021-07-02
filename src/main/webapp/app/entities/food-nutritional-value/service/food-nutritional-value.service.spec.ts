@@ -27,7 +27,7 @@ describe('Service Tests', () => {
       elemDefault = {
         id: 0,
         di: currentDate,
-        barcode: 'AAAAAAA',
+        name: 'AAAAAAA',
         protein: 0,
         proteinCal: 0,
         fat: 0,
@@ -83,7 +83,7 @@ describe('Service Tests', () => {
           {
             id: 1,
             di: currentDate.format(DATE_TIME_FORMAT),
-            barcode: 'BBBBBB',
+            name: 'BBBBBB',
             protein: 1,
             proteinCal: 1,
             fat: 1,
@@ -113,7 +113,7 @@ describe('Service Tests', () => {
       it('should partial update a FoodNutritionalValue', () => {
         const patchObject = Object.assign(
           {
-            barcode: 'BBBBBB',
+            name: 'BBBBBB',
             fat: 1,
             fatCal: 1,
             carbohydrateCal: 1,
@@ -143,7 +143,7 @@ describe('Service Tests', () => {
           {
             id: 1,
             di: currentDate.format(DATE_TIME_FORMAT),
-            barcode: 'BBBBBB',
+            name: 'BBBBBB',
             protein: 1,
             proteinCal: 1,
             fat: 1,

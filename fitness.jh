@@ -14,7 +14,7 @@ application {
 entity FoodNutritionalValue {
 	id Long,
     di Instant,
-	barcode String,
+	name String,
     protein Integer,
     proteinCal Integer,
     fat Integer,

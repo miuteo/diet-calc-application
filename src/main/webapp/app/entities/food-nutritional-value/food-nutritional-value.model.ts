@@ -4,7 +4,7 @@ import { IFood } from 'app/entities/food/food.model';
 export interface IFoodNutritionalValue {
   id?: number;
   di?: dayjs.Dayjs | null;
-  barcode?: string | null;
+  name?: string | null;
   protein?: number | null;
   proteinCal?: number | null;
   fat?: number | null;
@@ -20,7 +20,7 @@ export class FoodNutritionalValue implements IFoodNutritionalValue {
   constructor(
     public id?: number,
     public di?: dayjs.Dayjs | null,
-    public barcode?: string | null,
+    public name?: string | null,
     public protein?: number | null,
     public proteinCal?: number | null,
     public fat?: number | null,

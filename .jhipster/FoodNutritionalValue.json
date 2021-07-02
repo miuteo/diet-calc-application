@@ -10,36 +10,36 @@
       "fieldType": "Instant"
     },
     {
-      "fieldName": "barcode",
+      "fieldName": "name",
       "fieldType": "String"
     },
     {
       "fieldName": "protein",
-      "fieldType": "Integer"
+      "fieldType": "Double"
     },
     {
       "fieldName": "proteinCal",
-      "fieldType": "Integer"
+      "fieldType": "Double"
     },
     {
       "fieldName": "fat",
-      "fieldType": "Integer"
+      "fieldType": "Double"
     },
     {
       "fieldName": "fatCal",
-      "fieldType": "Integer"
+      "fieldType": "Double"
     },
     {
       "fieldName": "carbohydrate",
-      "fieldType": "Integer"
+      "fieldType": "Double"
     },
     {
       "fieldName": "carbohydrateCal",
-      "fieldType": "Integer"
+      "fieldType": "Double"
     },
     {
       "fieldName": "quantity",
-      "fieldType": "Integer"
+      "fieldType": "Double"
     },
     {
       "fieldName": "isProteinPowder",

@@ -17,28 +17,28 @@
             <column name="di" type="${datetimeType}">
                 <constraints nullable="true" />
             </column>
-            <column name="barcode" type="varchar(255)">
+            <column name="name" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="protein" type="integer">
+            <column name="protein" type="double">
                 <constraints nullable="true" />
             </column>
-            <column name="protein_cal" type="integer">
+            <column name="protein_cal" type="double">
                 <constraints nullable="true" />
             </column>
-            <column name="fat" type="integer">
+            <column name="fat" type="double">
                 <constraints nullable="true" />
             </column>
-            <column name="fat_cal" type="integer">
+            <column name="fat_cal" type="double">
                 <constraints nullable="true" />
             </column>
-            <column name="carbohydrate" type="integer">
+            <column name="carbohydrate" type="double">
                 <constraints nullable="true" />
             </column>
-            <column name="carbohydrate_cal" type="integer">
+            <column name="carbohydrate_cal" type="double">
                 <constraints nullable="true" />
             </column>
-            <column name="quantity" type="integer">
+            <column name="quantity" type="double">
                 <constraints nullable="true" />
             </column>
             <column name="is_protein_powder" type="boolean">
@@ -69,7 +69,7 @@
                   tableName="food_nutritional_value">
             <column name="id" type="numeric"/>
             <column name="di" type="${datetimeType}"/>
-            <column name="barcode" type="string"/>
+            <column name="name" type="string"/>
             <column name="protein" type="numeric"/>
             <column name="protein_cal" type="numeric"/>
             <column name="fat" type="numeric"/>

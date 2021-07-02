@@ -5,6 +5,7 @@ import com.miu.teo.repository.FoodNutritionalValueRepository;
 import com.miu.teo.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -52,6 +53,7 @@ public class FoodNutritionalValueResource {
         if (foodNutritionalValue.getId() != null) {
             throw new BadRequestAlertException("A new foodNutritionalValue cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        foodNutritionalValue.setDi(Instant.now());
         FoodNutritionalValue result = foodNutritionalValueRepository.save(foodNutritionalValue);
         return ResponseEntity
             .created(new URI("/api/food-nutritional-values/" + result.getId()))
@@ -128,8 +130,8 @@ public class FoodNutritionalValueResource {
                     if (foodNutritionalValue.getDi() != null) {
                         existingFoodNutritionalValue.setDi(foodNutritionalValue.getDi());
                     }
-                    if (foodNutritionalValue.getBarcode() != null) {
-                        existingFoodNutritionalValue.setBarcode(foodNutritionalValue.getBarcode());
+                    if (foodNutritionalValue.getName() != null) {
+                        existingFoodNutritionalValue.setName(foodNutritionalValue.getName());
                     }
                     if (foodNutritionalValue.getProtein() != null) {
                         existingFoodNutritionalValue.setProtein(foodNutritionalValue.getProtein());

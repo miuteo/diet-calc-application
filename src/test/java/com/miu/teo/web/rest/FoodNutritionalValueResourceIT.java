@@ -37,26 +37,26 @@ class FoodNutritionalValueResourceIT {
     private static final String DEFAULT_BARCODE = "AAAAAAAAAA";
     private static final String UPDATED_BARCODE = "BBBBBBBBBB";
 
-    private static final Integer DEFAULT_PROTEIN = 1;
-    private static final Integer UPDATED_PROTEIN = 2;
+    private static final Double DEFAULT_PROTEIN = 1.0;
+    private static final Double UPDATED_PROTEIN = 2.0;
 
-    private static final Integer DEFAULT_PROTEIN_CAL = 1;
-    private static final Integer UPDATED_PROTEIN_CAL = 2;
+    private static final Double DEFAULT_PROTEIN_CAL = 1.0;
+    private static final Double UPDATED_PROTEIN_CAL = 2.0;
 
-    private static final Integer DEFAULT_FAT = 1;
-    private static final Integer UPDATED_FAT = 2;
+    private static final Double DEFAULT_FAT = 1.0;
+    private static final Double UPDATED_FAT = 2.0;
 
-    private static final Integer DEFAULT_FAT_CAL = 1;
-    private static final Integer UPDATED_FAT_CAL = 2;
+    private static final Double DEFAULT_FAT_CAL = 1.0;
+    private static final Double UPDATED_FAT_CAL = 2.0;
 
-    private static final Integer DEFAULT_CARBOHYDRATE = 1;
-    private static final Integer UPDATED_CARBOHYDRATE = 2;
+    private static final Double DEFAULT_CARBOHYDRATE = 1.0;
+    private static final Double UPDATED_CARBOHYDRATE = 2.0;
 
-    private static final Integer DEFAULT_CARBOHYDRATE_CAL = 1;
-    private static final Integer UPDATED_CARBOHYDRATE_CAL = 2;
+    private static final Double DEFAULT_CARBOHYDRATE_CAL = 1.0;
+    private static final Double UPDATED_CARBOHYDRATE_CAL = 2.0;
 
-    private static final Integer DEFAULT_QUANTITY = 1;
-    private static final Integer UPDATED_QUANTITY = 2;
+    private static final Double DEFAULT_QUANTITY = 1.0;
+    private static final Double UPDATED_QUANTITY = 2.0;
 
     private static final Boolean DEFAULT_IS_PROTEIN_POWDER = false;
     private static final Boolean UPDATED_IS_PROTEIN_POWDER = true;
@@ -87,7 +87,7 @@ class FoodNutritionalValueResourceIT {
     public static FoodNutritionalValue createEntity(EntityManager em) {
         FoodNutritionalValue foodNutritionalValue = new FoodNutritionalValue()
             .di(DEFAULT_DI)
-            .barcode(DEFAULT_BARCODE)
+            .name(DEFAULT_BARCODE)
             .protein(DEFAULT_PROTEIN)
             .proteinCal(DEFAULT_PROTEIN_CAL)
             .fat(DEFAULT_FAT)
@@ -108,7 +108,7 @@ class FoodNutritionalValueResourceIT {
     public static FoodNutritionalValue createUpdatedEntity(EntityManager em) {
         FoodNutritionalValue foodNutritionalValue = new FoodNutritionalValue()
             .di(UPDATED_DI)
-            .barcode(UPDATED_BARCODE)
+            .name(UPDATED_BARCODE)
             .protein(UPDATED_PROTEIN)
             .proteinCal(UPDATED_PROTEIN_CAL)
             .fat(UPDATED_FAT)
@@ -143,7 +143,7 @@ class FoodNutritionalValueResourceIT {
         assertThat(foodNutritionalValueList).hasSize(databaseSizeBeforeCreate + 1);
         FoodNutritionalValue testFoodNutritionalValue = foodNutritionalValueList.get(foodNutritionalValueList.size() - 1);
         assertThat(testFoodNutritionalValue.getDi()).isEqualTo(DEFAULT_DI);
-        assertThat(testFoodNutritionalValue.getBarcode()).isEqualTo(DEFAULT_BARCODE);
+        assertThat(testFoodNutritionalValue.getName()).isEqualTo(DEFAULT_BARCODE);
         assertThat(testFoodNutritionalValue.getProtein()).isEqualTo(DEFAULT_PROTEIN);
         assertThat(testFoodNutritionalValue.getProteinCal()).isEqualTo(DEFAULT_PROTEIN_CAL);
         assertThat(testFoodNutritionalValue.getFat()).isEqualTo(DEFAULT_FAT);
@@ -189,7 +189,7 @@ class FoodNutritionalValueResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(foodNutritionalValue.getId().intValue())))
             .andExpect(jsonPath("$.[*].di").value(hasItem(DEFAULT_DI.toString())))
-            .andExpect(jsonPath("$.[*].barcode").value(hasItem(DEFAULT_BARCODE)))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_BARCODE)))
             .andExpect(jsonPath("$.[*].protein").value(hasItem(DEFAULT_PROTEIN)))
             .andExpect(jsonPath("$.[*].proteinCal").value(hasItem(DEFAULT_PROTEIN_CAL)))
             .andExpect(jsonPath("$.[*].fat").value(hasItem(DEFAULT_FAT)))
@@ -213,7 +213,7 @@ class FoodNutritionalValueResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(foodNutritionalValue.getId().intValue()))
             .andExpect(jsonPath("$.di").value(DEFAULT_DI.toString()))
-            .andExpect(jsonPath("$.barcode").value(DEFAULT_BARCODE))
+            .andExpect(jsonPath("$.name").value(DEFAULT_BARCODE))
             .andExpect(jsonPath("$.protein").value(DEFAULT_PROTEIN))
             .andExpect(jsonPath("$.proteinCal").value(DEFAULT_PROTEIN_CAL))
             .andExpect(jsonPath("$.fat").value(DEFAULT_FAT))
@@ -245,7 +245,7 @@ class FoodNutritionalValueResourceIT {
         em.detach(updatedFoodNutritionalValue);
         updatedFoodNutritionalValue
             .di(UPDATED_DI)
-            .barcode(UPDATED_BARCODE)
+            .name(UPDATED_BARCODE)
             .protein(UPDATED_PROTEIN)
             .proteinCal(UPDATED_PROTEIN_CAL)
             .fat(UPDATED_FAT)
@@ -268,7 +268,7 @@ class FoodNutritionalValueResourceIT {
         assertThat(foodNutritionalValueList).hasSize(databaseSizeBeforeUpdate);
         FoodNutritionalValue testFoodNutritionalValue = foodNutritionalValueList.get(foodNutritionalValueList.size() - 1);
         assertThat(testFoodNutritionalValue.getDi()).isEqualTo(UPDATED_DI);
-        assertThat(testFoodNutritionalValue.getBarcode()).isEqualTo(UPDATED_BARCODE);
+        assertThat(testFoodNutritionalValue.getName()).isEqualTo(UPDATED_BARCODE);
         assertThat(testFoodNutritionalValue.getProtein()).isEqualTo(UPDATED_PROTEIN);
         assertThat(testFoodNutritionalValue.getProteinCal()).isEqualTo(UPDATED_PROTEIN_CAL);
         assertThat(testFoodNutritionalValue.getFat()).isEqualTo(UPDATED_FAT);
@@ -351,7 +351,7 @@ class FoodNutritionalValueResourceIT {
 
         partialUpdatedFoodNutritionalValue
             .di(UPDATED_DI)
-            .barcode(UPDATED_BARCODE)
+            .name(UPDATED_BARCODE)
             .protein(UPDATED_PROTEIN)
             .proteinCal(UPDATED_PROTEIN_CAL)
             .fat(UPDATED_FAT)
@@ -370,7 +370,7 @@ class FoodNutritionalValueResourceIT {
         assertThat(foodNutritionalValueList).hasSize(databaseSizeBeforeUpdate);
         FoodNutritionalValue testFoodNutritionalValue = foodNutritionalValueList.get(foodNutritionalValueList.size() - 1);
         assertThat(testFoodNutritionalValue.getDi()).isEqualTo(UPDATED_DI);
-        assertThat(testFoodNutritionalValue.getBarcode()).isEqualTo(UPDATED_BARCODE);
+        assertThat(testFoodNutritionalValue.getName()).isEqualTo(UPDATED_BARCODE);
         assertThat(testFoodNutritionalValue.getProtein()).isEqualTo(UPDATED_PROTEIN);
         assertThat(testFoodNutritionalValue.getProteinCal()).isEqualTo(UPDATED_PROTEIN_CAL);
         assertThat(testFoodNutritionalValue.getFat()).isEqualTo(UPDATED_FAT);
@@ -395,7 +395,7 @@ class FoodNutritionalValueResourceIT {
 
         partialUpdatedFoodNutritionalValue
             .di(UPDATED_DI)
-            .barcode(UPDATED_BARCODE)
+            .name(UPDATED_BARCODE)
             .protein(UPDATED_PROTEIN)
             .proteinCal(UPDATED_PROTEIN_CAL)
             .fat(UPDATED_FAT)
@@ -418,7 +418,7 @@ class FoodNutritionalValueResourceIT {
         assertThat(foodNutritionalValueList).hasSize(databaseSizeBeforeUpdate);
         FoodNutritionalValue testFoodNutritionalValue = foodNutritionalValueList.get(foodNutritionalValueList.size() - 1);
         assertThat(testFoodNutritionalValue.getDi()).isEqualTo(UPDATED_DI);
-        assertThat(testFoodNutritionalValue.getBarcode()).isEqualTo(UPDATED_BARCODE);
+        assertThat(testFoodNutritionalValue.getName()).isEqualTo(UPDATED_BARCODE);
         assertThat(testFoodNutritionalValue.getProtein()).isEqualTo(UPDATED_PROTEIN);
         assertThat(testFoodNutritionalValue.getProteinCal()).isEqualTo(UPDATED_PROTEIN_CAL);
         assertThat(testFoodNutritionalValue.getFat()).isEqualTo(UPDATED_FAT);

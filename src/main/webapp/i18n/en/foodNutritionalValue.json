@@ -19,7 +19,7 @@
       },
       "id": "Id",
       "di": "Di",
-      "barcode": "Barcode",
+      "name": "Name",
       "protein": "Protein",
       "proteinCal": "Protein Cal",
       "fat": "Fat",

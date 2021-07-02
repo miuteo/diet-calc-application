@@ -34,7 +34,7 @@
         <tr>
           <th scope="col"><span jhiTranslate="dietCalcApplicationApp.foodNutritionalValue.id">Id</span></th>
           <th scope="col"><span jhiTranslate="dietCalcApplicationApp.foodNutritionalValue.di">Di</span></th>
-          <th scope="col"><span jhiTranslate="dietCalcApplicationApp.foodNutritionalValue.barcode">Barcode</span></th>
+          <th scope="col"><span jhiTranslate="dietCalcApplicationApp.foodNutritionalValue.name">name</span></th>
           <th scope="col"><span jhiTranslate="dietCalcApplicationApp.foodNutritionalValue.protein">Protein</span></th>
           <th scope="col"><span jhiTranslate="dietCalcApplicationApp.foodNutritionalValue.proteinCal">Protein Cal</span></th>
           <th scope="col"><span jhiTranslate="dietCalcApplicationApp.foodNutritionalValue.fat">Fat</span></th>
@@ -55,7 +55,7 @@
             <a [routerLink]="['/food-nutritional-value', foodNutritionalValue.id, 'view']">{{ foodNutritionalValue.id }}</a>
           </td>
           <td>{{ foodNutritionalValue.di | formatMediumDatetime }}</td>
-          <td>{{ foodNutritionalValue.barcode }}</td>
+          <td>{{ foodNutritionalValue.name }}</td>
           <td>{{ foodNutritionalValue.protein }}</td>
           <td>{{ foodNutritionalValue.proteinCal }}</td>
           <td>{{ foodNutritionalValue.fat }}</td>

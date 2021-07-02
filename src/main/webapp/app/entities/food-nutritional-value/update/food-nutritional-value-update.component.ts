@@ -25,7 +25,7 @@ export class FoodNutritionalValueUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     di: [],
-    barcode: [],
+    name: [],
     protein: [],
     proteinCal: [],
     fat: [],
@@ -98,7 +98,7 @@ export class FoodNutritionalValueUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: foodNutritionalValue.id,
       di: foodNutritionalValue.di ? foodNutritionalValue.di.format(DATE_TIME_FORMAT) : null,
-      barcode: foodNutritionalValue.barcode,
+      name: foodNutritionalValue.name,
       protein: foodNutritionalValue.protein,
       proteinCal: foodNutritionalValue.proteinCal,
       fat: foodNutritionalValue.fat,
@@ -129,7 +129,7 @@ export class FoodNutritionalValueUpdateComponent implements OnInit {
       ...new FoodNutritionalValue(),
       id: this.editForm.get(['id'])!.value,
       di: this.editForm.get(['di'])!.value ? dayjs(this.editForm.get(['di'])!.value, DATE_TIME_FORMAT) : undefined,
-      barcode: this.editForm.get(['barcode'])!.value,
+      name: this.editForm.get(['name'])!.value,
       protein: this.editForm.get(['protein'])!.value,
       proteinCal: this.editForm.get(['proteinCal'])!.value,
       fat: this.editForm.get(['fat'])!.value,
