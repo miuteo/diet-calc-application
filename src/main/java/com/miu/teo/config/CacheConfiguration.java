@@ -53,6 +53,7 @@ public class CacheConfiguration {
             createCache(cm, com.miu.teo.domain.Meal.class.getName());
             createCache(cm, com.miu.teo.domain.Meal.class.getName() + ".foods");
             createCache(cm, com.miu.teo.domain.UserDetails.class.getName());
+            createCache(cm, com.miu.teo.domain.UserStatus.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

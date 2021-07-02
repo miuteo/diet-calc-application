@@ -24,6 +24,11 @@ import { RouterModule } from '@angular/router';
         data: { pageTitle: 'dietCalcApplicationApp.userDetails.home.title' },
         loadChildren: () => import('./user-details/user-details.module').then(m => m.UserDetailsModule),
       },
+      {
+        path: 'user-status',
+        data: { pageTitle: 'dietCalcApplicationApp.userStatus.home.title' },
+        loadChildren: () => import('./user-status/user-status.module').then(m => m.UserStatusModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

@@ -1,0 +1,51 @@
+{
+  "name": "UserStatus",
+  "fields": [
+    {
+      "fieldName": "weight",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "proteinNeed",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "calProteinNeed",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "fatNeed",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "calFatNeed",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "carbohydrateNeed",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "calCarbohydrateNeed",
+      "fieldType": "Integer"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "userStatus",
+      "relationshipName": "user"
+    }
+  ],
+  "entityTableName": "user_status",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": ["dietCalcApplication"],
+  "changelogDate": "20210702125925"
+}

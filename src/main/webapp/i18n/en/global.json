@@ -11,6 +11,7 @@
         "food": "Food",
         "meal": "Meal",
         "userDetails": "User Details",
+        "userStatus": "User Status",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

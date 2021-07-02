@@ -48,8 +48,8 @@
     "herokuDeployType": "git",
     "herokuJavaVersion": "11",
     "applicationIndex": 0,
-    "entities": ["FoodNutritionalValue", "Food", "Meal", "UserDetails"],
-    "lastLiquibaseTimestamp": 1625224547000
+    "entities": ["FoodNutritionalValue", "Food", "Meal", "UserDetails", "UserStatus"],
+    "lastLiquibaseTimestamp": 1625230765000
   },
   "git-provider": "GitHub",
   "git-company": "miuteo",
