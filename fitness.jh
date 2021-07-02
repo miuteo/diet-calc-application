@@ -38,7 +38,7 @@ entity Meal{
  	mealTime MealName
 }
 
-entity UserDetails{
+entity UserStatus{
 	weight Double,
     proteinNeed Integer,
     calProteinNeed Integer,
@@ -50,7 +50,7 @@ entity UserDetails{
 
 relationship ManyToOne{
 	FoodNutritionalValue{foodNutritionalValue} to Food
-    UserDetails{user} to User
+    UserStatus{user} to User
 }
 relationship OneToMany {
   Meal to Food{meal}
