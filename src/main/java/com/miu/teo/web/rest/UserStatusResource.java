@@ -2,9 +2,11 @@ package com.miu.teo.web.rest;
 
 import com.miu.teo.domain.UserStatus;
 import com.miu.teo.repository.UserStatusRepository;
+import com.miu.teo.service.UserStatusService;
 import com.miu.teo.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.security.Principal;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -33,9 +35,11 @@ public class UserStatusResource {
     private String applicationName;
 
     private final UserStatusRepository userStatusRepository;
+    private final UserStatusService userStatusService;
 
-    public UserStatusResource(UserStatusRepository userStatusRepository) {
+    public UserStatusResource(UserStatusRepository userStatusRepository, UserStatusService userStatusService) {
         this.userStatusRepository = userStatusRepository;
+        this.userStatusService = userStatusService;
     }
 
     /**
@@ -46,12 +50,15 @@ public class UserStatusResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/user-statuses")
-    public ResponseEntity<UserStatus> createUserStatus(@RequestBody UserStatus userStatus) throws URISyntaxException {
+    public ResponseEntity<UserStatus> createUserStatus(@RequestBody UserStatus userStatus, Principal principal) throws URISyntaxException {
         log.debug("REST request to save UserStatus : {}", userStatus);
         if (userStatus.getId() != null) {
             throw new BadRequestAlertException("A new userStatus cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        UserStatus result = userStatusRepository.save(userStatus);
+        if (userStatus.getWeight() == null) {
+            throw new BadRequestAlertException("A new weight cannot be null", ENTITY_NAME, "weightnull");
+        }
+        UserStatus result = userStatusService.createUserStatus(userStatus, principal.getName());
         return ResponseEntity
             .created(new URI("/api/user-statuses/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
@@ -165,7 +172,7 @@ public class UserStatusResource {
     @GetMapping("/user-statuses")
     public List<UserStatus> getAllUserStatuses() {
         log.debug("REST request to get all UserStatuses");
-        return userStatusRepository.findAll();
+        return userStatusRepository.findByUserIsCurrentUser();
     }
 
     /**
