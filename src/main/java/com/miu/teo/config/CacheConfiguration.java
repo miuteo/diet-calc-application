@@ -48,11 +48,6 @@ public class CacheConfiguration {
             createCache(cm, com.miu.teo.domain.User.class.getName());
             createCache(cm, com.miu.teo.domain.Authority.class.getName());
             createCache(cm, com.miu.teo.domain.User.class.getName() + ".authorities");
-            createCache(cm, com.miu.teo.domain.FoodNutritionalValue.class.getName());
-            createCache(cm, com.miu.teo.domain.Food.class.getName());
-            createCache(cm, com.miu.teo.domain.Meal.class.getName());
-            createCache(cm, com.miu.teo.domain.Meal.class.getName() + ".foods");
-            createCache(cm, com.miu.teo.domain.UserDetails.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }
