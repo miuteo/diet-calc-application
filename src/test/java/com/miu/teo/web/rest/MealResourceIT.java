@@ -9,6 +9,8 @@ import com.miu.teo.IntegrationTest;
 import com.miu.teo.domain.Meal;
 import com.miu.teo.domain.enumeration.MealName;
 import com.miu.teo.repository.MealRepository;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
@@ -32,6 +34,9 @@ class MealResourceIT {
 
     private static final MealName DEFAULT_MEAL_TIME = MealName.MORNING;
     private static final MealName UPDATED_MEAL_TIME = MealName.PRELAUNCH;
+
+    private static final Instant DEFAULT_DI = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_DI = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     private static final String ENTITY_API_URL = "/api/meals";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -57,7 +62,7 @@ class MealResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Meal createEntity(EntityManager em) {
-        Meal meal = new Meal().mealTime(DEFAULT_MEAL_TIME);
+        Meal meal = new Meal().mealTime(DEFAULT_MEAL_TIME).di(DEFAULT_DI);
         return meal;
     }
 
@@ -68,7 +73,7 @@ class MealResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Meal createUpdatedEntity(EntityManager em) {
-        Meal meal = new Meal().mealTime(UPDATED_MEAL_TIME);
+        Meal meal = new Meal().mealTime(UPDATED_MEAL_TIME).di(UPDATED_DI);
         return meal;
     }
 
@@ -91,6 +96,7 @@ class MealResourceIT {
         assertThat(mealList).hasSize(databaseSizeBeforeCreate + 1);
         Meal testMeal = mealList.get(mealList.size() - 1);
         assertThat(testMeal.getMealTime()).isEqualTo(DEFAULT_MEAL_TIME);
+        assertThat(testMeal.getDi()).isEqualTo(DEFAULT_DI);
     }
 
     @Test
@@ -113,6 +119,23 @@ class MealResourceIT {
 
     @Test
     @Transactional
+    void checkDiIsRequired() throws Exception {
+        int databaseSizeBeforeTest = mealRepository.findAll().size();
+        // set the field null
+        meal.setDi(null);
+
+        // Create the Meal, which fails.
+
+        restMealMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(meal)))
+            .andExpect(status().isBadRequest());
+
+        List<Meal> mealList = mealRepository.findAll();
+        assertThat(mealList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     void getAllMeals() throws Exception {
         // Initialize the database
         mealRepository.saveAndFlush(meal);
@@ -123,7 +146,8 @@ class MealResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(meal.getId().intValue())))
-            .andExpect(jsonPath("$.[*].mealTime").value(hasItem(DEFAULT_MEAL_TIME.toString())));
+            .andExpect(jsonPath("$.[*].mealTime").value(hasItem(DEFAULT_MEAL_TIME.toString())))
+            .andExpect(jsonPath("$.[*].di").value(hasItem(DEFAULT_DI.toString())));
     }
 
     @Test
@@ -138,7 +162,8 @@ class MealResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(meal.getId().intValue()))
-            .andExpect(jsonPath("$.mealTime").value(DEFAULT_MEAL_TIME.toString()));
+            .andExpect(jsonPath("$.mealTime").value(DEFAULT_MEAL_TIME.toString()))
+            .andExpect(jsonPath("$.di").value(DEFAULT_DI.toString()));
     }
 
     @Test
@@ -160,7 +185,7 @@ class MealResourceIT {
         Meal updatedMeal = mealRepository.findById(meal.getId()).get();
         // Disconnect from session so that the updates on updatedMeal are not directly saved in db
         em.detach(updatedMeal);
-        updatedMeal.mealTime(UPDATED_MEAL_TIME);
+        updatedMeal.mealTime(UPDATED_MEAL_TIME).di(UPDATED_DI);
 
         restMealMockMvc
             .perform(
@@ -175,6 +200,7 @@ class MealResourceIT {
         assertThat(mealList).hasSize(databaseSizeBeforeUpdate);
         Meal testMeal = mealList.get(mealList.size() - 1);
         assertThat(testMeal.getMealTime()).isEqualTo(UPDATED_MEAL_TIME);
+        assertThat(testMeal.getDi()).isEqualTo(UPDATED_DI);
     }
 
     @Test
@@ -260,6 +286,7 @@ class MealResourceIT {
         assertThat(mealList).hasSize(databaseSizeBeforeUpdate);
         Meal testMeal = mealList.get(mealList.size() - 1);
         assertThat(testMeal.getMealTime()).isEqualTo(UPDATED_MEAL_TIME);
+        assertThat(testMeal.getDi()).isEqualTo(DEFAULT_DI);
     }
 
     @Test
@@ -274,7 +301,7 @@ class MealResourceIT {
         Meal partialUpdatedMeal = new Meal();
         partialUpdatedMeal.setId(meal.getId());
 
-        partialUpdatedMeal.mealTime(UPDATED_MEAL_TIME);
+        partialUpdatedMeal.mealTime(UPDATED_MEAL_TIME).di(UPDATED_DI);
 
         restMealMockMvc
             .perform(
@@ -289,6 +316,7 @@ class MealResourceIT {
         assertThat(mealList).hasSize(databaseSizeBeforeUpdate);
         Meal testMeal = mealList.get(mealList.size() - 1);
         assertThat(testMeal.getMealTime()).isEqualTo(UPDATED_MEAL_TIME);
+        assertThat(testMeal.getDi()).isEqualTo(UPDATED_DI);
     }
 
     @Test

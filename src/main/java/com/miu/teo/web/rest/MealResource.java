@@ -8,6 +8,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -102,8 +103,10 @@ public class MealResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/meals/{id}", consumes = "application/merge-patch+json")
-    public ResponseEntity<Meal> partialUpdateMeal(@PathVariable(value = "id", required = false) final Long id, @RequestBody Meal meal)
-        throws URISyntaxException {
+    public ResponseEntity<Meal> partialUpdateMeal(
+        @PathVariable(value = "id", required = false) final Long id,
+        @NotNull @RequestBody Meal meal
+    ) throws URISyntaxException {
         log.debug("REST request to partial update Meal partially : {}, {}", id, meal);
         if (meal.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -122,6 +125,9 @@ public class MealResource {
                 existingMeal -> {
                     if (meal.getMealTime() != null) {
                         existingMeal.setMealTime(meal.getMealTime());
+                    }
+                    if (meal.getDi() != null) {
+                        existingMeal.setDi(meal.getDi());
                     }
 
                     return existingMeal;

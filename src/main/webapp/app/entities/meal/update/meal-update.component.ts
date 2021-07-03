@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
+
+import * as dayjs from 'dayjs';
+import { DATE_TIME_FORMAT } from 'app/config/input.constants';
 
 import { IMeal, Meal } from '../meal.model';
 import { MealService } from '../service/meal.service';
@@ -18,12 +21,18 @@ export class MealUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     mealTime: [],
+    di: [null, [Validators.required]],
   });
 
   constructor(protected mealService: MealService, protected activatedRoute: ActivatedRoute, protected fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ meal }) => {
+      if (meal.id === undefined) {
+        const today = dayjs().startOf('day');
+        meal.di = today;
+      }
+
       this.updateForm(meal);
     });
   }
@@ -65,6 +74,7 @@ export class MealUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: meal.id,
       mealTime: meal.mealTime,
+      di: meal.di ? meal.di.format(DATE_TIME_FORMAT) : null,
     });
   }
 
@@ -73,6 +83,7 @@ export class MealUpdateComponent implements OnInit {
       ...new Meal(),
       id: this.editForm.get(['id'])!.value,
       mealTime: this.editForm.get(['mealTime'])!.value,
+      di: this.editForm.get(['di'])!.value ? dayjs(this.editForm.get(['di'])!.value, DATE_TIME_FORMAT) : undefined,
     };
   }
 }

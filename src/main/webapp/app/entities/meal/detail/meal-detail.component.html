@@ -18,6 +18,10 @@
         <dd>
           <span jhiTranslate="{{ 'dietCalcApplicationApp.MealName.' + meal.mealTime }}">{{ meal.mealTime }}</span>
         </dd>
+        <dt><span jhiTranslate="dietCalcApplicationApp.meal.di">Di</span></dt>
+        <dd>
+          <span>{{ meal.di | formatMediumDatetime }}</span>
+        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

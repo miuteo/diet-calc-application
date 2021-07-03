@@ -9,6 +9,11 @@
       "fieldName": "mealTime",
       "fieldType": "MealName",
       "fieldValues": "MORNING,PRELAUNCH,LAUNCH,PREDINNER,DINNER,AFTERDINNER"
+    },
+    {
+      "fieldName": "di",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
     }
   ],
   "relationships": [

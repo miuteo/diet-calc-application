@@ -25,6 +25,33 @@
             <option value="AFTERDINNER">{{ 'dietCalcApplicationApp.MealName.AFTERDINNER' | translate }}</option>
           </select>
         </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="dietCalcApplicationApp.meal.di" for="field_di">Di</label>
+          <div class="d-flex">
+            <input
+              id="field_di"
+              data-cy="di"
+              type="datetime-local"
+              class="form-control"
+              name="di"
+              formControlName="di"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+          <div *ngIf="editForm.get('di')!.invalid && (editForm.get('di')!.dirty || editForm.get('di')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('di')?.errors?.required" jhiTranslate="entity.validation.required">
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('di')?.errors?.ZonedDateTimelocal"
+              jhiTranslate="entity.validation.ZonedDateTimelocal"
+            >
+              This field should be a date and time.
+            </small>
+          </div>
+        </div>
       </div>
 
       <div>

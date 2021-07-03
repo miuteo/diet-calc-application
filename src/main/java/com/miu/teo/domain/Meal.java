@@ -3,9 +3,11 @@ package com.miu.teo.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.miu.teo.domain.enumeration.MealName;
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -26,6 +28,10 @@ public class Meal implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "meal_time")
     private MealName mealTime;
+
+    @NotNull
+    @Column(name = "di", nullable = false)
+    private Instant di;
 
     @OneToMany(mappedBy = "meal")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -57,6 +63,19 @@ public class Meal implements Serializable {
 
     public void setMealTime(MealName mealTime) {
         this.mealTime = mealTime;
+    }
+
+    public Instant getDi() {
+        return this.di;
+    }
+
+    public Meal di(Instant di) {
+        this.di = di;
+        return this;
+    }
+
+    public void setDi(Instant di) {
+        this.di = di;
     }
 
     public Set<Food> getFoods() {
@@ -115,6 +134,7 @@ public class Meal implements Serializable {
         return "Meal{" +
             "id=" + getId() +
             ", mealTime='" + getMealTime() + "'" +
+            ", di='" + getDi() + "'" +
             "}";
     }
 }

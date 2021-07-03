@@ -17,8 +17,12 @@
             <column name="meal_time" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="di" type="${datetimeType}">
+                <constraints nullable="false" />
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
+        <dropDefaultValue tableName="meal" columnName="di" columnDataType="${datetimeType}"/>
     </changeSet>
 
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
@@ -38,6 +42,7 @@
                   tableName="meal">
             <column name="id" type="numeric"/>
             <column name="meal_time" type="string"/>
+            <column name="di" type="${datetimeType}"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

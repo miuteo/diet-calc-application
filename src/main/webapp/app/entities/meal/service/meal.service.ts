@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import * as dayjs from 'dayjs';
 
 import { isPresent } from 'app/core/util/operators';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
@@ -17,24 +19,37 @@ export class MealService {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
   create(meal: IMeal): Observable<EntityResponseType> {
-    return this.http.post<IMeal>(this.resourceUrl, meal, { observe: 'response' });
+    const copy = this.convertDateFromClient(meal);
+    return this.http
+      .post<IMeal>(this.resourceUrl, copy, { observe: 'response' })
+      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
 
   update(meal: IMeal): Observable<EntityResponseType> {
-    return this.http.put<IMeal>(`${this.resourceUrl}/${getMealIdentifier(meal) as number}`, meal, { observe: 'response' });
+    const copy = this.convertDateFromClient(meal);
+    return this.http
+      .put<IMeal>(`${this.resourceUrl}/${getMealIdentifier(meal) as number}`, copy, { observe: 'response' })
+      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
 
   partialUpdate(meal: IMeal): Observable<EntityResponseType> {
-    return this.http.patch<IMeal>(`${this.resourceUrl}/${getMealIdentifier(meal) as number}`, meal, { observe: 'response' });
+    const copy = this.convertDateFromClient(meal);
+    return this.http
+      .patch<IMeal>(`${this.resourceUrl}/${getMealIdentifier(meal) as number}`, copy, { observe: 'response' })
+      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
 
   find(id: number): Observable<EntityResponseType> {
-    return this.http.get<IMeal>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+    return this.http
+      .get<IMeal>(`${this.resourceUrl}/${id}`, { observe: 'response' })
+      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
 
   query(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
-    return this.http.get<IMeal[]>(this.resourceUrl, { params: options, observe: 'response' });
+    return this.http
+      .get<IMeal[]>(this.resourceUrl, { params: options, observe: 'response' })
+      .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
   }
 
   delete(id: number): Observable<HttpResponse<{}>> {
@@ -56,5 +71,27 @@ export class MealService {
       return [...mealsToAdd, ...mealCollection];
     }
     return mealCollection;
+  }
+
+  protected convertDateFromClient(meal: IMeal): IMeal {
+    return Object.assign({}, meal, {
+      di: meal.di?.isValid() ? meal.di.toJSON() : undefined,
+    });
+  }
+
+  protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
+    if (res.body) {
+      res.body.di = res.body.di ? dayjs(res.body.di) : undefined;
+    }
+    return res;
+  }
+
+  protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
+    if (res.body) {
+      res.body.forEach((meal: IMeal) => {
+        meal.di = meal.di ? dayjs(meal.di) : undefined;
+      });
+    }
+    return res;
   }
 }

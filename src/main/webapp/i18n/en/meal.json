@@ -19,6 +19,7 @@
       },
       "id": "Id",
       "mealTime": "Meal Time",
+      "di": "Di",
       "food": "Food"
     }
   }

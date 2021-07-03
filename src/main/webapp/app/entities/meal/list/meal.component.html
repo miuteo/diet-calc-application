@@ -34,6 +34,7 @@
         <tr>
           <th scope="col"><span jhiTranslate="dietCalcApplicationApp.meal.id">Id</span></th>
           <th scope="col"><span jhiTranslate="dietCalcApplicationApp.meal.mealTime">Meal Time</span></th>
+          <th scope="col"><span jhiTranslate="dietCalcApplicationApp.meal.di">Di</span></th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -43,6 +44,7 @@
             <a [routerLink]="['/meal', meal.id, 'view']">{{ meal.id }}</a>
           </td>
           <td jhiTranslate="{{ 'dietCalcApplicationApp.MealName.' + meal.mealTime }}">{{ meal.mealTime }}</td>
+          <td>{{ meal.di | formatMediumDatetime }}</td>
           <td class="text-right">
             <div class="btn-group">
               <button type="submit" [routerLink]="['/meal', meal.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">

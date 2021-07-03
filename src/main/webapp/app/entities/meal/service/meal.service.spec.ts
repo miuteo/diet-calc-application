@@ -1,6 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import * as dayjs from 'dayjs';
 
+import { DATE_TIME_FORMAT } from 'app/config/input.constants';
 import { MealName } from 'app/entities/enumerations/meal-name.model';
 import { IMeal, Meal } from '../meal.model';
 
@@ -12,6 +14,7 @@ describe('Service Tests', () => {
     let httpMock: HttpTestingController;
     let elemDefault: IMeal;
     let expectedResult: IMeal | IMeal[] | boolean | null;
+    let currentDate: dayjs.Dayjs;
 
     beforeEach(() => {
       TestBed.configureTestingModule({
@@ -20,16 +23,23 @@ describe('Service Tests', () => {
       expectedResult = null;
       service = TestBed.inject(MealService);
       httpMock = TestBed.inject(HttpTestingController);
+      currentDate = dayjs();
 
       elemDefault = {
         id: 0,
         mealTime: MealName.MORNING,
+        di: currentDate,
       };
     });
 
     describe('Service methods', () => {
       it('should find an element', () => {
-        const returnedFromService = Object.assign({}, elemDefault);
+        const returnedFromService = Object.assign(
+          {
+            di: currentDate.format(DATE_TIME_FORMAT),
+          },
+          elemDefault
+        );
 
         service.find(123).subscribe(resp => (expectedResult = resp.body));
 
@@ -42,11 +52,17 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 0,
+            di: currentDate.format(DATE_TIME_FORMAT),
           },
           elemDefault
         );
 
-        const expected = Object.assign({}, returnedFromService);
+        const expected = Object.assign(
+          {
+            di: currentDate,
+          },
+          returnedFromService
+        );
 
         service.create(new Meal()).subscribe(resp => (expectedResult = resp.body));
 
@@ -60,11 +76,17 @@ describe('Service Tests', () => {
           {
             id: 1,
             mealTime: 'BBBBBB',
+            di: currentDate.format(DATE_TIME_FORMAT),
           },
           elemDefault
         );
 
-        const expected = Object.assign({}, returnedFromService);
+        const expected = Object.assign(
+          {
+            di: currentDate,
+          },
+          returnedFromService
+        );
 
         service.update(expected).subscribe(resp => (expectedResult = resp.body));
 
@@ -78,7 +100,12 @@ describe('Service Tests', () => {
 
         const returnedFromService = Object.assign(patchObject, elemDefault);
 
-        const expected = Object.assign({}, returnedFromService);
+        const expected = Object.assign(
+          {
+            di: currentDate,
+          },
+          returnedFromService
+        );
 
         service.partialUpdate(patchObject).subscribe(resp => (expectedResult = resp.body));
 
@@ -92,11 +119,17 @@ describe('Service Tests', () => {
           {
             id: 1,
             mealTime: 'BBBBBB',
+            di: currentDate.format(DATE_TIME_FORMAT),
           },
           elemDefault
         );
 
-        const expected = Object.assign({}, returnedFromService);
+        const expected = Object.assign(
+          {
+            di: currentDate,
+          },
+          returnedFromService
+        );
 
         service.query().subscribe(resp => (expectedResult = resp.body));
 
@@ -143,7 +176,7 @@ describe('Service Tests', () => {
         });
 
         it('should add only unique Meal to an array', () => {
-          const mealArray: IMeal[] = [{ id: 123 }, { id: 456 }, { id: 36952 }];
+          const mealArray: IMeal[] = [{ id: 123 }, { id: 456 }, { id: 77202 }];
           const mealCollection: IMeal[] = [{ id: 123 }];
           expectedResult = service.addMealToCollectionIfMissing(mealCollection, ...mealArray);
           expect(expectedResult).toHaveLength(3);
