@@ -1,6 +1,5 @@
 package com.miu.teo.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.Instant;
 import javax.persistence.*;
@@ -50,10 +49,6 @@ public class FoodNutritionalValue implements Serializable {
 
     @Column(name = "is_protein_powder")
     private Boolean isProteinPowder;
-
-    @ManyToOne
-    @JsonIgnoreProperties(value = { "meal" }, allowSetters = true)
-    private Food foodNutritionalValue;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -197,19 +192,6 @@ public class FoodNutritionalValue implements Serializable {
 
     public void setIsProteinPowder(Boolean isProteinPowder) {
         this.isProteinPowder = isProteinPowder;
-    }
-
-    public Food getFoodNutritionalValue() {
-        return this.foodNutritionalValue;
-    }
-
-    public FoodNutritionalValue foodNutritionalValue(Food food) {
-        this.setFoodNutritionalValue(food);
-        return this;
-    }
-
-    public void setFoodNutritionalValue(Food food) {
-        this.foodNutritionalValue = food;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

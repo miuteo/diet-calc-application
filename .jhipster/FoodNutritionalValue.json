@@ -46,14 +46,6 @@
       "fieldType": "Boolean"
     }
   ],
-  "relationships": [
-    {
-      "relationshipType": "many-to-one",
-      "otherEntityName": "food",
-      "otherEntityRelationshipName": "foodNutritionalValue",
-      "relationshipName": "foodNutritionalValue"
-    }
-  ],
   "entityTableName": "food_nutritional_value",
   "dto": "no",
   "pagination": "no",

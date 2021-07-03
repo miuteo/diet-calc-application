@@ -109,6 +109,7 @@
   },
   "defaultProject": "diet-calc-application",
   "cli": {
+    "analytics": false,
     "packageManager": "npm"
   }
 }

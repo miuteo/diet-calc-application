@@ -128,6 +128,7 @@ class FoodNutritionalValueResourceIT {
     @Test
     @Transactional
     void createFoodNutritionalValue() throws Exception {
+        Instant beforeCreation = Instant.now();
         int databaseSizeBeforeCreate = foodNutritionalValueRepository.findAll().size();
         // Create the FoodNutritionalValue
         restFoodNutritionalValueMockMvc
@@ -137,12 +138,12 @@ class FoodNutritionalValueResourceIT {
                     .content(TestUtil.convertObjectToJsonBytes(foodNutritionalValue))
             )
             .andExpect(status().isCreated());
-
+        Instant afterCreation = Instant.now();
         // Validate the FoodNutritionalValue in the database
         List<FoodNutritionalValue> foodNutritionalValueList = foodNutritionalValueRepository.findAll();
         assertThat(foodNutritionalValueList).hasSize(databaseSizeBeforeCreate + 1);
         FoodNutritionalValue testFoodNutritionalValue = foodNutritionalValueList.get(foodNutritionalValueList.size() - 1);
-        assertThat(testFoodNutritionalValue.getDi()).isEqualTo(DEFAULT_DI);
+        assertThat(testFoodNutritionalValue.getDi()).isAfterOrEqualTo(beforeCreation).isBeforeOrEqualTo(afterCreation);
         assertThat(testFoodNutritionalValue.getName()).isEqualTo(DEFAULT_BARCODE);
         assertThat(testFoodNutritionalValue.getProtein()).isEqualTo(DEFAULT_PROTEIN);
         assertThat(testFoodNutritionalValue.getProteinCal()).isEqualTo(DEFAULT_PROTEIN_CAL);

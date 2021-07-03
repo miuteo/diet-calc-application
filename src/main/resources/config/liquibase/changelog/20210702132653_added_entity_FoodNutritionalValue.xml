@@ -44,9 +44,7 @@
             <column name="is_protein_powder" type="boolean">
                 <constraints nullable="true" />
             </column>
-            <column name="food_nutritional_value_id" type="bigint">
-                <constraints nullable="true" />
-            </column>
+
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
         <dropDefaultValue tableName="food_nutritional_value" columnName="di" columnDataType="${datetimeType}"/>
