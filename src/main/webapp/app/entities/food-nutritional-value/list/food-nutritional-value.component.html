@@ -34,7 +34,7 @@
         <tr>
           <th scope="col"><span jhiTranslate="dietCalcApplicationApp.foodNutritionalValue.id">Id</span></th>
           <th scope="col"><span jhiTranslate="dietCalcApplicationApp.foodNutritionalValue.di">Di</span></th>
-          <th scope="col"><span jhiTranslate="dietCalcApplicationApp.foodNutritionalValue.name">name</span></th>
+          <th scope="col"><span jhiTranslate="dietCalcApplicationApp.foodNutritionalValue.name">Name</span></th>
           <th scope="col"><span jhiTranslate="dietCalcApplicationApp.foodNutritionalValue.protein">Protein</span></th>
           <th scope="col"><span jhiTranslate="dietCalcApplicationApp.foodNutritionalValue.proteinCal">Protein Cal</span></th>
           <th scope="col"><span jhiTranslate="dietCalcApplicationApp.foodNutritionalValue.fat">Fat</span></th>
@@ -43,9 +43,6 @@
           <th scope="col"><span jhiTranslate="dietCalcApplicationApp.foodNutritionalValue.carbohydrateCal">Carbohydrate Cal</span></th>
           <th scope="col"><span jhiTranslate="dietCalcApplicationApp.foodNutritionalValue.quantity">Quantity</span></th>
           <th scope="col"><span jhiTranslate="dietCalcApplicationApp.foodNutritionalValue.isProteinPowder">Is Protein Powder</span></th>
-          <th scope="col">
-            <span jhiTranslate="dietCalcApplicationApp.foodNutritionalValue.foodNutritionalValue">Food Nutritional Value</span>
-          </th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -64,13 +61,6 @@
           <td>{{ foodNutritionalValue.carbohydrateCal }}</td>
           <td>{{ foodNutritionalValue.quantity }}</td>
           <td>{{ foodNutritionalValue.isProteinPowder }}</td>
-          <td>
-            <div *ngIf="foodNutritionalValue.foodNutritionalValue">
-              <a [routerLink]="['/food', foodNutritionalValue.foodNutritionalValue?.id, 'view']">{{
-                foodNutritionalValue.foodNutritionalValue?.id
-              }}</a>
-            </div>
-          </td>
           <td class="text-right">
             <div class="btn-group">
               <button

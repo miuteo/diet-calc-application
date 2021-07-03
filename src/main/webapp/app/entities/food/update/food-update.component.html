@@ -45,6 +45,45 @@
             </option>
           </select>
         </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="dietCalcApplicationApp.food.foodNutritionalValue" for="field_foodNutritionalValue"
+            >Food Nutritional Value</label
+          >
+          <select
+            class="form-control"
+            id="field_foodNutritionalValue"
+            data-cy="foodNutritionalValue"
+            name="foodNutritionalValue"
+            formControlName="foodNutritionalValue"
+          >
+            <option *ngIf="!editForm.get('foodNutritionalValue')!.value" [ngValue]="null" selected></option>
+            <option
+              [ngValue]="
+                foodNutritionalValueOption.id === editForm.get('foodNutritionalValue')!.value?.id
+                  ? editForm.get('foodNutritionalValue')!.value
+                  : foodNutritionalValueOption
+              "
+              *ngFor="let foodNutritionalValueOption of foodNutritionalValuesSharedCollection; trackBy: trackFoodNutritionalValueById"
+            >
+              {{ foodNutritionalValueOption.name }}
+            </option>
+          </select>
+        </div>
+        <div
+          *ngIf="
+            editForm.get(['foodNutritionalValue'])!.invalid &&
+            (editForm.get(['foodNutritionalValue'])!.dirty || editForm.get(['foodNutritionalValue'])!.touched)
+          "
+        >
+          <small
+            class="form-text text-danger"
+            *ngIf="editForm.get(['foodNutritionalValue'])?.errors?.required"
+            jhiTranslate="entity.validation.required"
+          >
+            This field is required.
+          </small>
+        </div>
       </div>
 
       <div>

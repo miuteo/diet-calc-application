@@ -3,15 +3,13 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { finalize, map } from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
 
 import * as dayjs from 'dayjs';
 import { DATE_TIME_FORMAT } from 'app/config/input.constants';
 
 import { IFoodNutritionalValue, FoodNutritionalValue } from '../food-nutritional-value.model';
 import { FoodNutritionalValueService } from '../service/food-nutritional-value.service';
-import { IFood } from 'app/entities/food/food.model';
-import { FoodService } from 'app/entities/food/service/food.service';
 
 @Component({
   selector: 'jhi-food-nutritional-value-update',
@@ -19,8 +17,6 @@ import { FoodService } from 'app/entities/food/service/food.service';
 })
 export class FoodNutritionalValueUpdateComponent implements OnInit {
   isSaving = false;
-
-  foodsSharedCollection: IFood[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -34,12 +30,10 @@ export class FoodNutritionalValueUpdateComponent implements OnInit {
     carbohydrateCal: [],
     quantity: [],
     isProteinPowder: [],
-    foodNutritionalValue: [],
   });
 
   constructor(
     protected foodNutritionalValueService: FoodNutritionalValueService,
-    protected foodService: FoodService,
     protected activatedRoute: ActivatedRoute,
     protected fb: FormBuilder
   ) {}
@@ -52,8 +46,6 @@ export class FoodNutritionalValueUpdateComponent implements OnInit {
       }
 
       this.updateForm(foodNutritionalValue);
-
-      this.loadRelationshipsOptions();
     });
   }
 
@@ -69,10 +61,6 @@ export class FoodNutritionalValueUpdateComponent implements OnInit {
     } else {
       this.subscribeToSaveResponse(this.foodNutritionalValueService.create(foodNutritionalValue));
     }
-  }
-
-  trackFoodById(index: number, item: IFood): number {
-    return item.id!;
   }
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IFoodNutritionalValue>>): void {
@@ -107,21 +95,7 @@ export class FoodNutritionalValueUpdateComponent implements OnInit {
       carbohydrateCal: foodNutritionalValue.carbohydrateCal,
       quantity: foodNutritionalValue.quantity,
       isProteinPowder: foodNutritionalValue.isProteinPowder,
-      foodNutritionalValue: foodNutritionalValue.foodNutritionalValue,
     });
-
-    this.foodsSharedCollection = this.foodService.addFoodToCollectionIfMissing(
-      this.foodsSharedCollection,
-      foodNutritionalValue.foodNutritionalValue
-    );
-  }
-
-  protected loadRelationshipsOptions(): void {
-    this.foodService
-      .query()
-      .pipe(map((res: HttpResponse<IFood[]>) => res.body ?? []))
-      .pipe(map((foods: IFood[]) => this.foodService.addFoodToCollectionIfMissing(foods, this.editForm.get('foodNutritionalValue')!.value)))
-      .subscribe((foods: IFood[]) => (this.foodsSharedCollection = foods));
   }
 
   protected createFromForm(): IFoodNutritionalValue {
@@ -138,7 +112,6 @@ export class FoodNutritionalValueUpdateComponent implements OnInit {
       carbohydrateCal: this.editForm.get(['carbohydrateCal'])!.value,
       quantity: this.editForm.get(['quantity'])!.value,
       isProteinPowder: this.editForm.get(['isProteinPowder'])!.value,
-      foodNutritionalValue: this.editForm.get(['foodNutritionalValue'])!.value,
     };
   }
 }

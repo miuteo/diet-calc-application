@@ -20,6 +20,13 @@
       "otherEntityName": "meal",
       "otherEntityRelationshipName": "food",
       "relationshipName": "meal"
+    },
+    {
+      "relationshipName": "foodNutritionalValue",
+      "otherEntityName": "foodNutritionalValue",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": ["required"],
+      "otherEntityField": "name"
     }
   ],
   "entityTableName": "food",

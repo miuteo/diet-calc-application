@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.miu.teo.IntegrationTest;
 import com.miu.teo.domain.Food;
+import com.miu.teo.domain.FoodNutritionalValue;
 import com.miu.teo.repository.FoodRepository;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -62,6 +63,16 @@ class FoodResourceIT {
      */
     public static Food createEntity(EntityManager em) {
         Food food = new Food().di(DEFAULT_DI).quantity(DEFAULT_QUANTITY);
+        // Add required entity
+        FoodNutritionalValue foodNutritionalValue;
+        if (TestUtil.findAll(em, FoodNutritionalValue.class).isEmpty()) {
+            foodNutritionalValue = FoodNutritionalValueResourceIT.createEntity(em);
+            em.persist(foodNutritionalValue);
+            em.flush();
+        } else {
+            foodNutritionalValue = TestUtil.findAll(em, FoodNutritionalValue.class).get(0);
+        }
+        food.setFoodNutritionalValue(foodNutritionalValue);
         return food;
     }
 
@@ -73,6 +84,16 @@ class FoodResourceIT {
      */
     public static Food createUpdatedEntity(EntityManager em) {
         Food food = new Food().di(UPDATED_DI).quantity(UPDATED_QUANTITY);
+        // Add required entity
+        FoodNutritionalValue foodNutritionalValue;
+        if (TestUtil.findAll(em, FoodNutritionalValue.class).isEmpty()) {
+            foodNutritionalValue = FoodNutritionalValueResourceIT.createUpdatedEntity(em);
+            em.persist(foodNutritionalValue);
+            em.flush();
+        } else {
+            foodNutritionalValue = TestUtil.findAll(em, FoodNutritionalValue.class).get(0);
+        }
+        food.setFoodNutritionalValue(foodNutritionalValue);
         return food;
     }
 

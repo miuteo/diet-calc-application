@@ -27,8 +27,7 @@
       "carbohydrate": "Carbohydrate",
       "carbohydrateCal": "Carbohydrate Cal",
       "quantity": "Quantity",
-      "isProteinPowder": "Is Protein Powder",
-      "foodNutritionalValue": "Food Nutritional Value"
+      "isProteinPowder": "Is Protein Powder"
     }
   }
 }

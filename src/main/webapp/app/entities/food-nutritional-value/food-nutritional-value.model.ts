@@ -1,5 +1,4 @@
 import * as dayjs from 'dayjs';
-import { IFood } from 'app/entities/food/food.model';
 
 export interface IFoodNutritionalValue {
   id?: number;
@@ -13,7 +12,6 @@ export interface IFoodNutritionalValue {
   carbohydrateCal?: number | null;
   quantity?: number | null;
   isProteinPowder?: boolean | null;
-  foodNutritionalValue?: IFood | null;
 }
 
 export class FoodNutritionalValue implements IFoodNutritionalValue {
@@ -28,8 +26,7 @@ export class FoodNutritionalValue implements IFoodNutritionalValue {
     public carbohydrate?: number | null,
     public carbohydrateCal?: number | null,
     public quantity?: number | null,
-    public isProteinPowder?: boolean | null,
-    public foodNutritionalValue?: IFood | null
+    public isProteinPowder?: boolean | null
   ) {
     this.isProteinPowder = this.isProteinPowder ?? false;
   }

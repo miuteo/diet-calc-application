@@ -55,5 +55,6 @@
   "readOnly": false,
   "embedded": false,
   "applications": ["dietCalcApplication"],
-  "changelogDate": "20210702132653"
+  "changelogDate": "20210702132653",
+  "relationships": []
 }

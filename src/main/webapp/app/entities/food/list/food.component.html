@@ -36,6 +36,7 @@
           <th scope="col"><span jhiTranslate="dietCalcApplicationApp.food.di">Di</span></th>
           <th scope="col"><span jhiTranslate="dietCalcApplicationApp.food.quantity">Quantity</span></th>
           <th scope="col"><span jhiTranslate="dietCalcApplicationApp.food.meal">Meal</span></th>
+          <th scope="col"><span jhiTranslate="dietCalcApplicationApp.food.foodNutritionalValue">Food Nutritional Value</span></th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -49,6 +50,11 @@
           <td>
             <div *ngIf="food.meal">
               <a [routerLink]="['/meal', food.meal?.id, 'view']">{{ food.meal?.id }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="food.foodNutritionalValue">
+              <a [routerLink]="['/food-nutritional-value', food.foodNutritionalValue?.id, 'view']">{{ food.foodNutritionalValue?.name }}</a>
             </div>
           </td>
           <td class="text-right">

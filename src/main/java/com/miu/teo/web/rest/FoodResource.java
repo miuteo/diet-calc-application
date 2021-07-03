@@ -8,6 +8,8 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -46,7 +48,7 @@ public class FoodResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/foods")
-    public ResponseEntity<Food> createFood(@RequestBody Food food) throws URISyntaxException {
+    public ResponseEntity<Food> createFood(@Valid @RequestBody Food food) throws URISyntaxException {
         log.debug("REST request to save Food : {}", food);
         if (food.getId() != null) {
             throw new BadRequestAlertException("A new food cannot already have an ID", ENTITY_NAME, "idexists");
@@ -69,7 +71,7 @@ public class FoodResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/foods/{id}")
-    public ResponseEntity<Food> updateFood(@PathVariable(value = "id", required = false) final Long id, @RequestBody Food food)
+    public ResponseEntity<Food> updateFood(@PathVariable(value = "id", required = false) final Long id, @Valid @RequestBody Food food)
         throws URISyntaxException {
         log.debug("REST request to update Food : {}, {}", id, food);
         if (food.getId() == null) {
@@ -102,8 +104,10 @@ public class FoodResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/foods/{id}", consumes = "application/merge-patch+json")
-    public ResponseEntity<Food> partialUpdateFood(@PathVariable(value = "id", required = false) final Long id, @RequestBody Food food)
-        throws URISyntaxException {
+    public ResponseEntity<Food> partialUpdateFood(
+        @PathVariable(value = "id", required = false) final Long id,
+        @NotNull @RequestBody Food food
+    ) throws URISyntaxException {
         log.debug("REST request to partial update Food partially : {}, {}", id, food);
         if (food.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");

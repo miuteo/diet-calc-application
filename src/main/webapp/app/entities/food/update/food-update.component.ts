@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
@@ -12,6 +12,8 @@ import { IFood, Food } from '../food.model';
 import { FoodService } from '../service/food.service';
 import { IMeal } from 'app/entities/meal/meal.model';
 import { MealService } from 'app/entities/meal/service/meal.service';
+import { IFoodNutritionalValue } from 'app/entities/food-nutritional-value/food-nutritional-value.model';
+import { FoodNutritionalValueService } from 'app/entities/food-nutritional-value/service/food-nutritional-value.service';
 
 @Component({
   selector: 'jhi-food-update',
@@ -21,17 +23,20 @@ export class FoodUpdateComponent implements OnInit {
   isSaving = false;
 
   mealsSharedCollection: IMeal[] = [];
+  foodNutritionalValuesSharedCollection: IFoodNutritionalValue[] = [];
 
   editForm = this.fb.group({
     id: [],
     di: [],
     quantity: [],
     meal: [],
+    foodNutritionalValue: [null, Validators.required],
   });
 
   constructor(
     protected foodService: FoodService,
     protected mealService: MealService,
+    protected foodNutritionalValueService: FoodNutritionalValueService,
     protected activatedRoute: ActivatedRoute,
     protected fb: FormBuilder
   ) {}
@@ -67,6 +72,10 @@ export class FoodUpdateComponent implements OnInit {
     return item.id!;
   }
 
+  trackFoodNutritionalValueById(index: number, item: IFoodNutritionalValue): number {
+    return item.id!;
+  }
+
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IFood>>): void {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe(
       () => this.onSaveSuccess(),
@@ -92,9 +101,14 @@ export class FoodUpdateComponent implements OnInit {
       di: food.di ? food.di.format(DATE_TIME_FORMAT) : null,
       quantity: food.quantity,
       meal: food.meal,
+      foodNutritionalValue: food.foodNutritionalValue,
     });
 
     this.mealsSharedCollection = this.mealService.addMealToCollectionIfMissing(this.mealsSharedCollection, food.meal);
+    this.foodNutritionalValuesSharedCollection = this.foodNutritionalValueService.addFoodNutritionalValueToCollectionIfMissing(
+      this.foodNutritionalValuesSharedCollection,
+      food.foodNutritionalValue
+    );
   }
 
   protected loadRelationshipsOptions(): void {
@@ -103,6 +117,19 @@ export class FoodUpdateComponent implements OnInit {
       .pipe(map((res: HttpResponse<IMeal[]>) => res.body ?? []))
       .pipe(map((meals: IMeal[]) => this.mealService.addMealToCollectionIfMissing(meals, this.editForm.get('meal')!.value)))
       .subscribe((meals: IMeal[]) => (this.mealsSharedCollection = meals));
+
+    this.foodNutritionalValueService
+      .query()
+      .pipe(map((res: HttpResponse<IFoodNutritionalValue[]>) => res.body ?? []))
+      .pipe(
+        map((foodNutritionalValues: IFoodNutritionalValue[]) =>
+          this.foodNutritionalValueService.addFoodNutritionalValueToCollectionIfMissing(
+            foodNutritionalValues,
+            this.editForm.get('foodNutritionalValue')!.value
+          )
+        )
+      )
+      .subscribe((foodNutritionalValues: IFoodNutritionalValue[]) => (this.foodNutritionalValuesSharedCollection = foodNutritionalValues));
   }
 
   protected createFromForm(): IFood {
@@ -112,6 +139,7 @@ export class FoodUpdateComponent implements OnInit {
       di: this.editForm.get(['di'])!.value ? dayjs(this.editForm.get(['di'])!.value, DATE_TIME_FORMAT) : undefined,
       quantity: this.editForm.get(['quantity'])!.value,
       meal: this.editForm.get(['meal'])!.value,
+      foodNutritionalValue: this.editForm.get(['foodNutritionalValue'])!.value,
     };
   }
 }

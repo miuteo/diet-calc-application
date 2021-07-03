@@ -20,7 +20,8 @@
       "id": "Id",
       "di": "Di",
       "quantity": "Quantity",
-      "meal": "Meal"
+      "meal": "Meal",
+      "foodNutritionalValue": "Food Nutritional Value"
     }
   }
 }

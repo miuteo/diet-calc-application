@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.Instant;
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -30,6 +31,10 @@ public class Food implements Serializable {
     @ManyToOne
     @JsonIgnoreProperties(value = { "foods" }, allowSetters = true)
     private Meal meal;
+
+    @ManyToOne(optional = false)
+    @NotNull
+    private FoodNutritionalValue foodNutritionalValue;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -82,6 +87,19 @@ public class Food implements Serializable {
 
     public void setMeal(Meal meal) {
         this.meal = meal;
+    }
+
+    public FoodNutritionalValue getFoodNutritionalValue() {
+        return this.foodNutritionalValue;
+    }
+
+    public Food foodNutritionalValue(FoodNutritionalValue foodNutritionalValue) {
+        this.setFoodNutritionalValue(foodNutritionalValue);
+        return this;
+    }
+
+    public void setFoodNutritionalValue(FoodNutritionalValue foodNutritionalValue) {
+        this.foodNutritionalValue = foodNutritionalValue;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

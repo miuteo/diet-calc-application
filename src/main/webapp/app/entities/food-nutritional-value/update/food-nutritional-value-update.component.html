@@ -124,32 +124,6 @@
             formControlName="isProteinPowder"
           />
         </div>
-
-        <div class="form-group">
-          <label
-            class="form-control-label"
-            jhiTranslate="dietCalcApplicationApp.foodNutritionalValue.foodNutritionalValue"
-            for="field_foodNutritionalValue"
-            >Food Nutritional Value</label
-          >
-          <select
-            class="form-control"
-            id="field_foodNutritionalValue"
-            data-cy="foodNutritionalValue"
-            name="foodNutritionalValue"
-            formControlName="foodNutritionalValue"
-          >
-            <option [ngValue]="null"></option>
-            <option
-              [ngValue]="
-                foodOption.id === editForm.get('foodNutritionalValue')!.value?.id ? editForm.get('foodNutritionalValue')!.value : foodOption
-              "
-              *ngFor="let foodOption of foodsSharedCollection; trackBy: trackFoodById"
-            >
-              {{ foodOption.id }}
-            </option>
-          </select>
-        </div>
       </div>
 
       <div>

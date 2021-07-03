@@ -11,6 +11,8 @@ import { FoodService } from '../service/food.service';
 import { IFood, Food } from '../food.model';
 import { IMeal } from 'app/entities/meal/meal.model';
 import { MealService } from 'app/entities/meal/service/meal.service';
+import { IFoodNutritionalValue } from 'app/entities/food-nutritional-value/food-nutritional-value.model';
+import { FoodNutritionalValueService } from 'app/entities/food-nutritional-value/service/food-nutritional-value.service';
 
 import { FoodUpdateComponent } from './food-update.component';
 
@@ -21,6 +23,7 @@ describe('Component Tests', () => {
     let activatedRoute: ActivatedRoute;
     let foodService: FoodService;
     let mealService: MealService;
+    let foodNutritionalValueService: FoodNutritionalValueService;
 
     beforeEach(() => {
       TestBed.configureTestingModule({
@@ -35,6 +38,7 @@ describe('Component Tests', () => {
       activatedRoute = TestBed.inject(ActivatedRoute);
       foodService = TestBed.inject(FoodService);
       mealService = TestBed.inject(MealService);
+      foodNutritionalValueService = TestBed.inject(FoodNutritionalValueService);
 
       comp = fixture.componentInstance;
     });
@@ -59,16 +63,41 @@ describe('Component Tests', () => {
         expect(comp.mealsSharedCollection).toEqual(expectedCollection);
       });
 
+      it('Should call FoodNutritionalValue query and add missing value', () => {
+        const food: IFood = { id: 456 };
+        const foodNutritionalValue: IFoodNutritionalValue = { id: 30403 };
+        food.foodNutritionalValue = foodNutritionalValue;
+
+        const foodNutritionalValueCollection: IFoodNutritionalValue[] = [{ id: 21631 }];
+        jest.spyOn(foodNutritionalValueService, 'query').mockReturnValue(of(new HttpResponse({ body: foodNutritionalValueCollection })));
+        const additionalFoodNutritionalValues = [foodNutritionalValue];
+        const expectedCollection: IFoodNutritionalValue[] = [...additionalFoodNutritionalValues, ...foodNutritionalValueCollection];
+        jest.spyOn(foodNutritionalValueService, 'addFoodNutritionalValueToCollectionIfMissing').mockReturnValue(expectedCollection);
+
+        activatedRoute.data = of({ food });
+        comp.ngOnInit();
+
+        expect(foodNutritionalValueService.query).toHaveBeenCalled();
+        expect(foodNutritionalValueService.addFoodNutritionalValueToCollectionIfMissing).toHaveBeenCalledWith(
+          foodNutritionalValueCollection,
+          ...additionalFoodNutritionalValues
+        );
+        expect(comp.foodNutritionalValuesSharedCollection).toEqual(expectedCollection);
+      });
+
       it('Should update editForm', () => {
         const food: IFood = { id: 456 };
         const meal: IMeal = { id: 23432 };
         food.meal = meal;
+        const foodNutritionalValue: IFoodNutritionalValue = { id: 83696 };
+        food.foodNutritionalValue = foodNutritionalValue;
 
         activatedRoute.data = of({ food });
         comp.ngOnInit();
 
         expect(comp.editForm.value).toEqual(expect.objectContaining(food));
         expect(comp.mealsSharedCollection).toContain(meal);
+        expect(comp.foodNutritionalValuesSharedCollection).toContain(foodNutritionalValue);
       });
     });
 
@@ -141,6 +170,14 @@ describe('Component Tests', () => {
         it('Should return tracked Meal primary key', () => {
           const entity = { id: 123 };
           const trackResult = comp.trackMealById(0, entity);
+          expect(trackResult).toEqual(entity.id);
+        });
+      });
+
+      describe('trackFoodNutritionalValueById', () => {
+        it('Should return tracked FoodNutritionalValue primary key', () => {
+          const entity = { id: 123 };
+          const trackResult = comp.trackFoodNutritionalValueById(0, entity);
           expect(trackResult).toEqual(entity.id);
         });
       });

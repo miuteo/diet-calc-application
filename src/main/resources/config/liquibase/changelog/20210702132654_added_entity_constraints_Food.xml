@@ -13,5 +13,11 @@
                                  constraintName="fk_food__meal_id"
                                  referencedColumnNames="id"
                                  referencedTableName="meal"/>
+
+        <addForeignKeyConstraint baseColumnNames="food_nutritional_value_id"
+                                 baseTableName="food"
+                                 constraintName="fk_food__food_nutritional_value_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="food_nutritional_value"/>
     </changeSet>
 </databaseChangeLog>

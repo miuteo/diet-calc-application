@@ -56,14 +56,6 @@
         <dd>
           <span>{{ foodNutritionalValue.isProteinPowder }}</span>
         </dd>
-        <dt><span jhiTranslate="dietCalcApplicationApp.foodNutritionalValue.foodNutritionalValue">Food Nutritional Value</span></dt>
-        <dd>
-          <div *ngIf="foodNutritionalValue.foodNutritionalValue">
-            <a [routerLink]="['/food', foodNutritionalValue.foodNutritionalValue?.id, 'view']">{{
-              foodNutritionalValue.foodNutritionalValue?.id
-            }}</a>
-          </div>
-        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
