@@ -1,0 +1,24 @@
+<div class="alert alert-warning" id="no-result" *ngIf="userStatuses?.length === 0">
+  <span jhiTranslate="dietCalcApplicationApp.userStatus.home.notFound">No userStatuses found</span>
+</div>
+
+<div class="table-responsive" id="entities" *ngIf="userStatuses && userStatuses.length > 0">
+  <table class="table table-striped" aria-describedby="page-heading">
+    <thead>
+      <tr>
+        <th scope="col"><span jhiTranslate="dietCalcApplicationApp.userStatus.weight">Weight</span></th>
+        <th scope="col"><span jhiTranslate="dietCalcApplicationApp.userStatus.proteinNeed">Protein Need</span></th>
+        <th scope="col"><span jhiTranslate="dietCalcApplicationApp.userStatus.fatNeed">Fat Need</span></th>
+        <th scope="col"><span jhiTranslate="dietCalcApplicationApp.userStatus.carbohydrateNeed">Carbohydrate Need</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let userStatus of userStatuses" data-cy="entityTable">
+        <td>{{ userStatus.weight }}</td>
+        <td>{{ userStatus.proteinNeed }}</td>
+        <td>{{ userStatus.fatNeed }}</td>
+        <td>{{ userStatus.carbohydrateNeed }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
