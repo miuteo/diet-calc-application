@@ -11,9 +11,7 @@ import { HttpResponse } from '@angular/common/http';
 export class DailyLogsComponent implements OnInit {
   userStatuses?: IUserStatus[];
 
-  constructor(private userStatusService: UserStatusService) {
-    console.log(userStatusService);
-  }
+  constructor(private userStatusService: UserStatusService) {}
 
   ngOnInit(): void {
     this.userStatusService.query().subscribe((res: HttpResponse<IUserStatus[]>) => {

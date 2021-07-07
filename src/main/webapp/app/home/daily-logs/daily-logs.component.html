@@ -1,5 +1,5 @@
 <div class="alert alert-warning" id="no-result" *ngIf="userStatuses?.length === 0">
-  <span jhiTranslate="dietCalcApplicationApp.userStatus.home.notFound">No userStatuses found</span>
+  <span jhiTranslate="dietCalcApplicationApp.userStatus.home.notFound">No userStatuses found, please update it</span>
 </div>
 
 <div class="table-responsive" id="entities" *ngIf="userStatuses && userStatuses.length > 0">
@@ -21,4 +21,15 @@
       </tr>
     </tbody>
   </table>
+  <mat-slider min="1" max="100" step="1" value="1"></mat-slider>
+  <p>
+    <span matBadge="1" matBadgeSize="large">Text with large badge</span>
+  </p>
+
+  <p>
+    Icon with a badge
+    <mat-icon matBadge="15" matBadgeColor="warn">home</mat-icon>
+    <!-- Include text description of the icon's meaning for screen-readers -->
+    <span class="cdk-visually-hidden"> Example with a home icon with overlaid badge showing the number 15 </span>
+  </p>
 </div>
