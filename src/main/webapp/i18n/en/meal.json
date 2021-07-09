@@ -20,7 +20,8 @@
       "id": "Id",
       "mealTime": "Meal Time",
       "di": "Di",
-      "food": "Food"
+      "food": "Food",
+      "user": "User"
     }
   }
 }

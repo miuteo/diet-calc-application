@@ -20,6 +20,9 @@
             <column name="di" type="${datetimeType}">
                 <constraints nullable="false" />
             </column>
+            <column name="user_id" type="bigint">
+                <constraints nullable="false" />
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
         <dropDefaultValue tableName="meal" columnName="di" columnDataType="${datetimeType}"/>
@@ -43,6 +46,7 @@
             <column name="id" type="numeric"/>
             <column name="meal_time" type="string"/>
             <column name="di" type="${datetimeType}"/>
+            <column name="user_id" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.miu.teo.IntegrationTest;
 import com.miu.teo.domain.Meal;
+import com.miu.teo.domain.User;
 import com.miu.teo.domain.enumeration.MealName;
 import com.miu.teo.repository.MealRepository;
 import java.time.Instant;
@@ -63,6 +64,11 @@ class MealResourceIT {
      */
     public static Meal createEntity(EntityManager em) {
         Meal meal = new Meal().mealTime(DEFAULT_MEAL_TIME).di(DEFAULT_DI);
+        // Add required entity
+        User user = UserResourceIT.createEntity(em);
+        em.persist(user);
+        em.flush();
+        meal.setUser(user);
         return meal;
     }
 
@@ -74,6 +80,11 @@ class MealResourceIT {
      */
     public static Meal createUpdatedEntity(EntityManager em) {
         Meal meal = new Meal().mealTime(UPDATED_MEAL_TIME).di(UPDATED_DI);
+        // Add required entity
+        User user = UserResourceIT.createEntity(em);
+        em.persist(user);
+        em.flush();
+        meal.setUser(user);
         return meal;
     }
 

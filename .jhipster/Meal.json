@@ -22,6 +22,15 @@
       "otherEntityName": "food",
       "otherEntityRelationshipName": "meal",
       "relationshipName": "food"
+    },
+    {
+      "relationshipName": "user",
+      "otherEntityName": "user",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": ["required"],
+      "otherEntityField": "login",
+      "ownerSide": true,
+      "otherEntityRelationshipName": "meal"
     }
   ],
   "entityTableName": "meal",

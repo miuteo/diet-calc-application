@@ -10,6 +10,9 @@ import { of, Subject } from 'rxjs';
 import { MealService } from '../service/meal.service';
 import { IMeal, Meal } from '../meal.model';
 
+import { IUser } from 'app/entities/user/user.model';
+import { UserService } from 'app/entities/user/user.service';
+
 import { MealUpdateComponent } from './meal-update.component';
 
 describe('Component Tests', () => {
@@ -18,6 +21,7 @@ describe('Component Tests', () => {
     let fixture: ComponentFixture<MealUpdateComponent>;
     let activatedRoute: ActivatedRoute;
     let mealService: MealService;
+    let userService: UserService;
 
     beforeEach(() => {
       TestBed.configureTestingModule({
@@ -31,18 +35,41 @@ describe('Component Tests', () => {
       fixture = TestBed.createComponent(MealUpdateComponent);
       activatedRoute = TestBed.inject(ActivatedRoute);
       mealService = TestBed.inject(MealService);
+      userService = TestBed.inject(UserService);
 
       comp = fixture.componentInstance;
     });
 
     describe('ngOnInit', () => {
+      it('Should call User query and add missing value', () => {
+        const meal: IMeal = { id: 456 };
+        const user: IUser = { id: 3455 };
+        meal.user = user;
+
+        const userCollection: IUser[] = [{ id: 54695 }];
+        jest.spyOn(userService, 'query').mockReturnValue(of(new HttpResponse({ body: userCollection })));
+        const additionalUsers = [user];
+        const expectedCollection: IUser[] = [...additionalUsers, ...userCollection];
+        jest.spyOn(userService, 'addUserToCollectionIfMissing').mockReturnValue(expectedCollection);
+
+        activatedRoute.data = of({ meal });
+        comp.ngOnInit();
+
+        expect(userService.query).toHaveBeenCalled();
+        expect(userService.addUserToCollectionIfMissing).toHaveBeenCalledWith(userCollection, ...additionalUsers);
+        expect(comp.usersSharedCollection).toEqual(expectedCollection);
+      });
+
       it('Should update editForm', () => {
         const meal: IMeal = { id: 456 };
+        const user: IUser = { id: 14652 };
+        meal.user = user;
 
         activatedRoute.data = of({ meal });
         comp.ngOnInit();
 
         expect(comp.editForm.value).toEqual(expect.objectContaining(meal));
+        expect(comp.usersSharedCollection).toContain(user);
       });
     });
 
@@ -107,6 +134,16 @@ describe('Component Tests', () => {
         expect(mealService.update).toHaveBeenCalledWith(meal);
         expect(comp.isSaving).toEqual(false);
         expect(comp.previousState).not.toHaveBeenCalled();
+      });
+    });
+
+    describe('Tracking relationships identifiers', () => {
+      describe('trackUserById', () => {
+        it('Should return tracked User primary key', () => {
+          const entity = { id: 123 };
+          const trackResult = comp.trackUserById(0, entity);
+          expect(trackResult).toEqual(entity.id);
+        });
       });
     });
   });

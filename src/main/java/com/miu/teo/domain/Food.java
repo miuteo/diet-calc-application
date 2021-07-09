@@ -29,7 +29,7 @@ public class Food implements Serializable {
     private Integer quantity;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "foods" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "foods", "user" }, allowSetters = true)
     private Meal meal;
 
     @ManyToOne(optional = false)

@@ -8,6 +8,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +48,7 @@ public class MealResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/meals")
-    public ResponseEntity<Meal> createMeal(@RequestBody Meal meal) throws URISyntaxException {
+    public ResponseEntity<Meal> createMeal(@Valid @RequestBody Meal meal) throws URISyntaxException {
         log.debug("REST request to save Meal : {}", meal);
         if (meal.getId() != null) {
             throw new BadRequestAlertException("A new meal cannot already have an ID", ENTITY_NAME, "idexists");
@@ -70,7 +71,7 @@ public class MealResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/meals/{id}")
-    public ResponseEntity<Meal> updateMeal(@PathVariable(value = "id", required = false) final Long id, @RequestBody Meal meal)
+    public ResponseEntity<Meal> updateMeal(@PathVariable(value = "id", required = false) final Long id, @Valid @RequestBody Meal meal)
         throws URISyntaxException {
         log.debug("REST request to update Meal : {}, {}", id, meal);
         if (meal.getId() == null) {
