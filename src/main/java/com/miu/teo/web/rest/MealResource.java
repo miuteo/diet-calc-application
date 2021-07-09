@@ -2,9 +2,14 @@ package com.miu.teo.web.rest;
 
 import com.miu.teo.domain.Meal;
 import com.miu.teo.repository.MealRepository;
+import com.miu.teo.service.MealService;
 import com.miu.teo.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.security.Principal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -36,8 +41,11 @@ public class MealResource {
 
     private final MealRepository mealRepository;
 
-    public MealResource(MealRepository mealRepository) {
+    private final MealService mealService;
+
+    public MealResource(MealRepository mealRepository, MealService mealService) {
         this.mealRepository = mealRepository;
+        this.mealService = mealService;
     }
 
     /**
@@ -48,12 +56,12 @@ public class MealResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/meals")
-    public ResponseEntity<Meal> createMeal(@Valid @RequestBody Meal meal) throws URISyntaxException {
+    public ResponseEntity<Meal> createMeal(@Valid @RequestBody Meal meal, Principal principal) throws URISyntaxException {
         log.debug("REST request to save Meal : {}", meal);
         if (meal.getId() != null) {
             throw new BadRequestAlertException("A new meal cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        Meal result = mealRepository.save(meal);
+        Meal result = mealService.createMeal(principal.getName(), meal);
         return ResponseEntity
             .created(new URI("/api/meals/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
@@ -150,7 +158,9 @@ public class MealResource {
     @GetMapping("/meals")
     public List<Meal> getAllMeals() {
         log.debug("REST request to get all Meals");
-        return mealRepository.findAll();
+        LocalDateTime start = LocalDate.now().atStartOfDay();
+        LocalDateTime end = start.plusDays(1);
+        return mealRepository.findTodayMeals(start.toInstant(ZoneOffset.UTC), end.toInstant(ZoneOffset.UTC));
     }
 
     /**
