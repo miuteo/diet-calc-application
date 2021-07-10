@@ -28,7 +28,7 @@ export class FoodUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     di: [],
-    quantity: [],
+    quantity: [null, [Validators.min(1), Validators.required]],
     meal: [],
     foodNutritionalValue: [null, Validators.required],
   });

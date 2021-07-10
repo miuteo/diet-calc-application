@@ -158,9 +158,7 @@ public class MealResource {
     @GetMapping("/meals")
     public List<Meal> getAllMeals() {
         log.debug("REST request to get all Meals");
-        LocalDateTime start = LocalDate.now().atStartOfDay();
-        LocalDateTime end = start.plusDays(1);
-        return mealRepository.findTodayMeals(start.toInstant(ZoneOffset.UTC), end.toInstant(ZoneOffset.UTC));
+        return mealService.findTodayMeals();
     }
 
     /**

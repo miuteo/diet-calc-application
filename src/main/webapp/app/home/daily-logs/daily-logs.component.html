@@ -1,8 +1,16 @@
 <div class="alert alert-warning" id="no-result" *ngIf="userStatuses?.length === 0">
   <span jhiTranslate="dietCalcApplicationApp.userStatus.home.notFound">No userStatuses found, please update it</span>
 </div>
-
-<div class="table-responsive" id="entities" *ngIf="userStatuses && userStatuses.length > 0">
+<button
+  id="jh-create-entity"
+  data-cy="entityCreateButton"
+  class="btn btn-primary jh-create-entity create-food"
+  [routerLink]="['/food/new']"
+>
+  <fa-icon icon="plus"></fa-icon>
+  <span jhiTranslate="dietCalcApplicationApp.food.home.createLabel"> Log new records</span>
+</button>
+<div class="table-responsive" id="entities">
   <table class="table table-striped" aria-describedby="page-heading">
     <thead>
       <tr>
@@ -10,6 +18,7 @@
         <th scope="col"><span jhiTranslate="dietCalcApplicationApp.userStatus.proteinNeed">Protein Need</span></th>
         <th scope="col"><span jhiTranslate="dietCalcApplicationApp.userStatus.fatNeed">Fat Need</span></th>
         <th scope="col"><span jhiTranslate="dietCalcApplicationApp.userStatus.carbohydrateNeed">Carbohydrate Need</span></th>
+        <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
@@ -18,9 +27,10 @@
         <td>{{ userStatus.proteinNeed }}</td>
         <td>{{ userStatus.fatNeed }}</td>
         <td>{{ userStatus.carbohydrateNeed }}</td>
+        <td></td>
       </tr>
       <tr>
-        <td scope="col" colspan="4">Today records</td>
+        <td scope="col" colspan="5">Today records</td>
       </tr>
 
       <tr *ngFor="let food of foods">
@@ -28,6 +38,24 @@
         <td>{{ (food.quantity! / food.foodNutritionalValue!.quantity!) * food!.foodNutritionalValue!.protein! | number: '1.0-2' }}</td>
         <td>{{ (food.quantity! / food.foodNutritionalValue!.quantity!) * food!.foodNutritionalValue!.fat! | number: '1.0-2' }}</td>
         <td>{{ (food.quantity! / food.foodNutritionalValue!.quantity!) * food!.foodNutritionalValue!.carbohydrate! | number: '1.0-2' }}</td>
+        <td class="text-right">
+          <div class="btn-group">
+            <button type="submit" [routerLink]="['/food', food.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+              <fa-icon icon="eye"></fa-icon>
+              <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+            </button>
+
+            <button type="submit" [routerLink]="['/food', food.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+              <fa-icon icon="pencil-alt"></fa-icon>
+              <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+
+            <button type="submit" (click)="delete(food)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+              <fa-icon icon="times"></fa-icon>
+              <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+            </button>
+          </div>
+        </td>
       </tr>
 
       <tr>
