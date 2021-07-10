@@ -19,17 +19,23 @@
         <td>{{ userStatus.fatNeed }}</td>
         <td>{{ userStatus.carbohydrateNeed }}</td>
       </tr>
+      <tr>
+        <td scope="col" colspan="4">Today records</td>
+      </tr>
+
+      <tr *ngFor="let food of foods">
+        <td>{{ food.quantity }}</td>
+        <td>{{ (food.quantity! / food.foodNutritionalValue!.quantity!) * food!.foodNutritionalValue!.protein! | number: '1.0-2' }}</td>
+        <td>{{ (food.quantity! / food.foodNutritionalValue!.quantity!) * food!.foodNutritionalValue!.fat! | number: '1.0-2' }}</td>
+        <td>{{ (food.quantity! / food.foodNutritionalValue!.quantity!) * food!.foodNutritionalValue!.carbohydrate! | number: '1.0-2' }}</td>
+      </tr>
+
+      <tr>
+        <td>Today total</td>
+        <td>{{ sumOfProtein | number: '1.0-2' }}</td>
+        <td>{{ sumOfFat | number: '1.0-2' }}</td>
+        <td>{{ sumOfCarbo | number: '1.0-2' }}</td>
+      </tr>
     </tbody>
   </table>
-  <mat-slider min="1" max="100" step="1" value="1"></mat-slider>
-  <p>
-    <span matBadge="1" matBadgeSize="large">Text with large badge</span>
-  </p>
-
-  <p>
-    Icon with a badge
-    <mat-icon matBadge="15" matBadgeColor="warn">home</mat-icon>
-    <!-- Include text description of the icon's meaning for screen-readers -->
-    <span class="cdk-visually-hidden"> Example with a home icon with overlaid badge showing the number 15 </span>
-  </p>
 </div>

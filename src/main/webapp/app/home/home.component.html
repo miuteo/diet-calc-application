@@ -31,9 +31,9 @@
       </div>
     </div>
 
-    <p jhiTranslate="home.question">If you have any question on JHipster:</p>
+    <p jhiTranslate="home.question" *ngIf="account == null">If you have any question on JHipster:</p>
 
-    <ul>
+    <ul *ngIf="account == null">
       <li>
         <a href="https://www.jhipster.tech/" target="_blank" rel="noopener noreferrer" jhiTranslate="home.link.homepage"
           >JHipster homepage</a
@@ -69,7 +69,7 @@
       </li>
     </ul>
 
-    <p>
+    <p *ngIf="account == null">
       <span jhiTranslate="home.like">If you like JHipster, don't forget to give us a star on</span>
       <a href="https://github.com/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer" jhiTranslate="home.github"
         >GitHub</a
