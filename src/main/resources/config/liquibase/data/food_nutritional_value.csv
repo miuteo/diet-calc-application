@@ -1,3 +1,5 @@
 id;di;name;protein;protein_cal;fat;fat_cal;carbohydrate;carbohydrate_cal;quantity;is_protein_powder
 1;2021-07-02 02:28:53.000000;wpi;45.2;180.8;0.5;4.5;0.05;0.2;50;true
 2;2021-07-03 10:25:48.866913;pepene verde;0.61;0;0.06;0;7.55;0;100;false
+3;2021-07-10 05:17:36.601530;piept de pui;21.2;;2.6;;0;;100;false
+4;2021-07-10 05:20:00.000000;mazare verde de gradina;6.45;;0;;9.12;;100;false
