@@ -6,6 +6,8 @@ import { FoodService } from '../../entities/food/service/food.service';
 import { IFood } from '../../entities/food/food.model';
 import { FoodDeleteDialogComponent } from '../../entities/food/delete/food-delete-dialog.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FoodNutritionalValueService } from '../../entities/food-nutritional-value/service/food-nutritional-value.service';
+import { FoodNutritionalValue } from '../../entities/food-nutritional-value/food-nutritional-value.model';
 
 @Component({
   selector: 'jhi-daily-logs',
@@ -15,12 +17,18 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class DailyLogsComponent implements OnInit {
   userStatuses?: IUserStatus[];
   foods?: IFood[];
+  proteinPowder?: FoodNutritionalValue;
 
   sumOfProtein = 0;
   sumOfFat = 0;
   sumOfCarbo = 0;
 
-  constructor(private userStatusService: UserStatusService, private foodService: FoodService, protected modalService: NgbModal) {}
+  constructor(
+    private userStatusService: UserStatusService,
+    private foodService: FoodService,
+    private foodNutritionalService: FoodNutritionalValueService,
+    protected modalService: NgbModal
+  ) {}
 
   ngOnInit(): void {
     this.userStatusService.query().subscribe((res: HttpResponse<IUserStatus[]>) => {
@@ -34,6 +42,8 @@ export class DailyLogsComponent implements OnInit {
         this.sumOfFat += (food.quantity! / food.foodNutritionalValue!.quantity!) * food.foodNutritionalValue!.fat!;
       });
     });
+
+    this.foodNutritionalService.queryProteinPowder().subscribe(response => (this.proteinPowder = response));
   }
 
   delete(food: IFood): void {

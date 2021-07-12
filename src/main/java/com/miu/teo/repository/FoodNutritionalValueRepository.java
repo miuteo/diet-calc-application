@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface FoodNutritionalValueRepository extends JpaRepository<FoodNutritionalValue, Long> {}
+public interface FoodNutritionalValueRepository extends JpaRepository<FoodNutritionalValue, Long> {
+    FoodNutritionalValue findFirstByIsProteinPowder(boolean isProteinPowder);
+}

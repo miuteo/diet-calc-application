@@ -56,6 +56,10 @@ export class FoodNutritionalValueService {
       .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
   }
 
+  queryProteinPowder(): Observable<IFoodNutritionalValue> {
+    return this.http.get<IFoodNutritionalValue>(`${this.resourceUrl}/getProteinPowder`);
+  }
+
   delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }

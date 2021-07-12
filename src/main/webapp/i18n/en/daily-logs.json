@@ -1,0 +1,7 @@
+{
+  "dietCalcApplicationApp": {
+    "dailylogs": {
+      "proteinPowderToComplete": "You need {{ quantity }} gr of your protein powder to complete your daily protein need"
+    }
+  }
+}

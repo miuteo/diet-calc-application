@@ -66,4 +66,13 @@
       </tr>
     </tbody>
   </table>
+  <div class="alert alert-info" id="protein-powder-info" *ngIf="proteinPowder">
+    <span
+      jhiTranslate="dietCalcApplicationApp.dailylogs.proteinPowderToComplete"
+      [translateValues]="{
+        quantity: (proteinPowder!.quantity! * (userStatuses![0]!.proteinNeed! - sumOfProtein)) / proteinPowder!.protein! | number: '1.0-2'
+      }"
+      >You need {{ (proteinPowder!.quantity! * (userStatuses![0]!.proteinNeed! - sumOfProtein)) / proteinPowder!.protein! }} gr
+    </span>
+  </div>
 </div>

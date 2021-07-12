@@ -180,6 +180,12 @@ public class FoodNutritionalValueResource {
         return foodNutritionalValueRepository.findAll();
     }
 
+    @GetMapping("/food-nutritional-values/getProteinPowder")
+    public FoodNutritionalValue getProteinPowder() {
+        log.debug("REST request to get proteinPowder");
+        return foodNutritionalValueRepository.findFirstByIsProteinPowder(true);
+    }
+
     /**
      * {@code GET  /food-nutritional-values/:id} : get the "id" foodNutritionalValue.
      *
