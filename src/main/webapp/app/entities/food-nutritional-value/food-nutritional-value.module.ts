@@ -5,14 +5,19 @@ import { FoodNutritionalValueDetailComponent } from './detail/food-nutritional-v
 import { FoodNutritionalValueUpdateComponent } from './update/food-nutritional-value-update.component';
 import { FoodNutritionalValueDeleteDialogComponent } from './delete/food-nutritional-value-delete-dialog.component';
 import { FoodNutritionalValueRoutingModule } from './route/food-nutritional-value-routing.module';
+import { FoodNutritionalCustomComponent } from './food-nutritional-custom/food-nutritional-custom.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
-  imports: [SharedModule, FoodNutritionalValueRoutingModule],
+  imports: [SharedModule, FoodNutritionalValueRoutingModule, MatInputModule, MatStepperModule, MatButtonModule],
   declarations: [
     FoodNutritionalValueComponent,
     FoodNutritionalValueDetailComponent,
     FoodNutritionalValueUpdateComponent,
     FoodNutritionalValueDeleteDialogComponent,
+    FoodNutritionalCustomComponent,
   ],
   entryComponents: [FoodNutritionalValueDeleteDialogComponent],
 })

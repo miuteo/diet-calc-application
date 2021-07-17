@@ -11,11 +11,21 @@
       <button
         id="jh-create-entity"
         data-cy="entityCreateButton"
-        class="btn btn-primary jh-create-entity create-food-nutritional-value"
+        class="btn btn-primary jh-create-entity create-food-nutritional-value mr-2"
         [routerLink]="['/food-nutritional-value/new']"
       >
         <fa-icon icon="plus"></fa-icon>
         <span jhiTranslate="dietCalcApplicationApp.foodNutritionalValue.home.createLabel"> Create a new Food Nutritional Value </span>
+      </button>
+
+      <button
+        id="jh-create-entity-custom"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-food-nutritional-value"
+        [routerLink]="['new-food-nutritional-custom']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Create a new Custom Food</span>
       </button>
     </div>
   </h2>

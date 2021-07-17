@@ -6,6 +6,7 @@ import { FoodNutritionalValueComponent } from '../list/food-nutritional-value.co
 import { FoodNutritionalValueDetailComponent } from '../detail/food-nutritional-value-detail.component';
 import { FoodNutritionalValueUpdateComponent } from '../update/food-nutritional-value-update.component';
 import { FoodNutritionalValueRoutingResolveService } from './food-nutritional-value-routing-resolve.service';
+import { FoodNutritionalCustomComponent } from '../food-nutritional-custom/food-nutritional-custom.component';
 
 const foodNutritionalValueRoute: Routes = [
   {
@@ -35,6 +36,11 @@ const foodNutritionalValueRoute: Routes = [
     resolve: {
       foodNutritionalValue: FoodNutritionalValueRoutingResolveService,
     },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: 'new-food-nutritional-custom',
+    component: FoodNutritionalCustomComponent,
     canActivate: [UserRouteAccessService],
   },
 ];
