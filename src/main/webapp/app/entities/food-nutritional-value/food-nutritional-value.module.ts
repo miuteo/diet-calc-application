@@ -9,9 +9,19 @@ import { FoodNutritionalCustomComponent } from './food-nutritional-custom/food-n
 import { MatInputModule } from '@angular/material/input';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatButtonModule } from '@angular/material/button';
+import { MatListModule } from '@angular/material/list';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
-  imports: [SharedModule, FoodNutritionalValueRoutingModule, MatInputModule, MatStepperModule, MatButtonModule],
+  imports: [
+    SharedModule,
+    FoodNutritionalValueRoutingModule,
+    MatInputModule,
+    MatStepperModule,
+    MatButtonModule,
+    MatListModule,
+    MatTableModule,
+  ],
   declarations: [
     FoodNutritionalValueComponent,
     FoodNutritionalValueDetailComponent,
