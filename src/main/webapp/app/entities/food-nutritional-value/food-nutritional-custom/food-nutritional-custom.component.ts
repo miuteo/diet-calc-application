@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 
 export interface PeriodicElement {
@@ -27,21 +27,46 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./food-nutritional-custom.component.scss'],
 })
 export class FoodNutritionalCustomComponent implements OnInit {
-  firstFormGroup: FormGroup;
+  nameFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   thirdFormGroup: FormGroup;
   isEditable = true;
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  dataSource2: any;
+  displayedColumns: string[] = ['name', 'weight'];
+
+  x: AbstractControl;
 
   constructor(private _formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
-    this.firstFormGroup = this._formBuilder.group({
-      firstCtrl: ['', Validators.required],
+    this.nameFormGroup = this._formBuilder.group({
+      nameCtrl: ['', Validators.required],
     });
     this.secondFormGroup = this._formBuilder.group({
       secondCtrl: ['', Validators.required],
+      aliases: this._formBuilder.array([this._formBuilder.control('')]),
     });
+    this.dataSource2 = ELEMENT_DATA.map(x => ({ ...x, form: this.createForm(x) }));
+  }
+
+  get aliases(): FormArray {
+    return this.secondFormGroup.get('aliases') as FormArray;
+  }
+
+  addAlias(): void {
+    this.aliases.push(this._formBuilder.control(''));
+  }
+
+  createForm(data: PeriodicElement): FormGroup {
+    return new FormGroup(
+      {
+        name: new FormControl(data.name),
+        weight: new FormControl(data.weight),
+        symbol: new FormControl(data.symbol),
+        position: new FormControl(data.position),
+      },
+      Validators.required
+    );
   }
 }
