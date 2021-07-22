@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -49,7 +49,6 @@ export class FoodNutritionalCustomComponent implements OnInit {
     });
     this.secondFormGroup = this._formBuilder.group({
       secondCtrl: ['', Validators.required],
-      aliases: this._formBuilder.array([this._formBuilder.control('')]),
     });
 
     this.filteredOptions = this.inputControl.valueChanges.pipe(
@@ -61,10 +60,6 @@ export class FoodNutritionalCustomComponent implements OnInit {
   _filter(value: string): PeriodicElement[] {
     const filterValue = value.toLowerCase();
     return this.availableIngredients.filter(option => option.name.toLowerCase().includes(filterValue));
-  }
-
-  get aliases(): FormArray {
-    return this.secondFormGroup.get('aliases') as FormArray;
   }
 
   createForm(data: PeriodicElement): FormGroup {
