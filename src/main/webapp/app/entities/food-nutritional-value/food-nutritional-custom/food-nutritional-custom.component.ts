@@ -4,26 +4,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete/autocomplete';
+import { FoodNutritionalValueService } from '../service/food-nutritional-value.service';
+import { IFoodNutritionalValue } from '../food-nutritional-value.model';
 
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
-  { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
-  { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
-  { position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be' },
-  { position: 5, name: 'Boron', weight: 10.811, symbol: 'B' },
-  { position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C' },
-  { position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N' },
-  { position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O' },
-  { position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F' },
-  { position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne' },
-];
 @Component({
   selector: 'jhi-food-nutritional-custom',
   templateUrl: './food-nutritional-custom.component.html',
@@ -35,13 +18,13 @@ export class FoodNutritionalCustomComponent implements OnInit {
   thirdFormGroup: FormGroup;
   isEditable = true;
   insertedIngredients: MatTableDataSource<any> = new MatTableDataSource<any>();
-  availableIngredients: PeriodicElement[] = [...ELEMENT_DATA];
+  availableIngredients: IFoodNutritionalValue[] = [];
   displayedColumns: string[] = ['name', 'weight'];
 
   inputControl = new FormControl();
-  filteredOptions: Observable<PeriodicElement[]>;
+  filteredOptions: Observable<IFoodNutritionalValue[]>;
 
-  constructor(private _formBuilder: FormBuilder) {}
+  constructor(private _formBuilder: FormBuilder, private foodNutritionalValueService: FoodNutritionalValueService) {}
 
   ngOnInit(): void {
     this.nameFormGroup = this._formBuilder.group({
@@ -55,20 +38,20 @@ export class FoodNutritionalCustomComponent implements OnInit {
       startWith(''),
       map(value => this._filter(value))
     );
+
+    this.foodNutritionalValueService.query().subscribe(value => (this.availableIngredients = value.body == null ? [] : value.body));
   }
 
-  _filter(value: string): PeriodicElement[] {
+  _filter(value: string): IFoodNutritionalValue[] {
     const filterValue = value.toLowerCase();
-    return this.availableIngredients.filter(option => option.name.toLowerCase().includes(filterValue));
+    return this.availableIngredients.filter(option => `${option.name}`.toLowerCase().includes(filterValue));
   }
 
-  createForm(data: PeriodicElement): FormGroup {
+  createForm(data: IFoodNutritionalValue): FormGroup {
     return new FormGroup(
       {
         name: new FormControl(data.name),
         weight: new FormControl(''),
-        symbol: new FormControl(data.symbol),
-        position: new FormControl(data.position),
       },
       Validators.required
     );
@@ -76,7 +59,7 @@ export class FoodNutritionalCustomComponent implements OnInit {
 
   addIngredientToList(event: MatAutocompleteSelectedEvent): void {
     const ingredientName: string = event.option.value;
-    const searchResult: PeriodicElement[] = this.availableIngredients.filter(value => value.name === ingredientName);
+    const searchResult: IFoodNutritionalValue[] = this.availableIngredients.filter(value => value.name === ingredientName);
     if (searchResult.length > 0) {
       const ingredient = searchResult[0];
       const alreadyInserted = this.insertedIngredients.data.filter(x => x.name === ingredientName).length > 0;
