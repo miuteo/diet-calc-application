@@ -11,6 +11,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { MatTableModule } from '@angular/material/table';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { MatTableModule } from '@angular/material/table';
     MatButtonModule,
     MatListModule,
     MatTableModule,
+    MatAutocompleteModule,
   ],
   declarations: [
     FoodNutritionalValueComponent,

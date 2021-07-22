@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete/autocomplete';
 
 export interface PeriodicElement {
   name: string;
@@ -31,11 +34,12 @@ export class FoodNutritionalCustomComponent implements OnInit {
   secondFormGroup: FormGroup;
   thirdFormGroup: FormGroup;
   isEditable = true;
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-  dataSource2: any;
+  insertedIngredients: MatTableDataSource<any> = new MatTableDataSource<any>();
+  availableIngredients: PeriodicElement[] = [...ELEMENT_DATA];
   displayedColumns: string[] = ['name', 'weight'];
 
-  x: AbstractControl;
+  inputControl = new FormControl();
+  filteredOptions: Observable<PeriodicElement[]>;
 
   constructor(private _formBuilder: FormBuilder) {}
 
@@ -47,26 +51,46 @@ export class FoodNutritionalCustomComponent implements OnInit {
       secondCtrl: ['', Validators.required],
       aliases: this._formBuilder.array([this._formBuilder.control('')]),
     });
-    this.dataSource2 = ELEMENT_DATA.map(x => ({ ...x, form: this.createForm(x) }));
+
+    this.filteredOptions = this.inputControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value))
+    );
+  }
+
+  _filter(value: string): PeriodicElement[] {
+    const filterValue = value.toLowerCase();
+    return this.availableIngredients.filter(option => option.name.toLowerCase().includes(filterValue));
   }
 
   get aliases(): FormArray {
     return this.secondFormGroup.get('aliases') as FormArray;
   }
 
-  addAlias(): void {
-    this.aliases.push(this._formBuilder.control(''));
-  }
-
   createForm(data: PeriodicElement): FormGroup {
     return new FormGroup(
       {
         name: new FormControl(data.name),
-        weight: new FormControl(data.weight),
+        weight: new FormControl(''),
         symbol: new FormControl(data.symbol),
         position: new FormControl(data.position),
       },
       Validators.required
     );
+  }
+
+  addIngredientToList(event: MatAutocompleteSelectedEvent): void {
+    const ingredientName: string = event.option.value;
+    const searchResult: PeriodicElement[] = this.availableIngredients.filter(value => value.name === ingredientName);
+    if (searchResult.length > 0) {
+      const ingredient = searchResult[0];
+      const alreadyInserted = this.insertedIngredients.data.filter(x => x.name === ingredientName).length > 0;
+      if (!alreadyInserted) {
+        this.insertedIngredients.data.push({ ...ingredient, form: this.createForm(ingredient) });
+        this.availableIngredients = this.availableIngredients.filter(x => x !== ingredient);
+        this.insertedIngredients._updateChangeSubscription();
+      }
+    }
+    this.inputControl.setValue('');
   }
 }
