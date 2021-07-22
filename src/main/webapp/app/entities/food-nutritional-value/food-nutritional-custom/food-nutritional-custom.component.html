@@ -53,17 +53,17 @@
     </div>
   </mat-step>
   <mat-step [stepControl]="thirdFormGroup" [editable]="isEditable">
-    <!--    <form [formGroup]="thirdFormGroup">-->
-    <!--      <ng-template matStepLabel>Resulted quantity</ng-template>-->
-    <!--      <mat-form-field appearance="fill">-->
-    <!--        <mat-label>Resulted quantity</mat-label>-->
-    <!--        <input matInput formControlName="thirdCtrl" placeholder="resulted quantity" />-->
-    <!--      </mat-form-field>-->
-    <!--      <div>-->
-    <!--        <button mat-button matStepperPrevious>Back</button>-->
-    <!--        <button mat-button matStepperNext>Next</button>-->
-    <!--      </div>-->
-    <!--    </form>-->
+    <form [formGroup]="thirdFormGroup">
+      <ng-template matStepLabel>Resulted quantity</ng-template>
+      <mat-form-field appearance="fill">
+        <mat-label>Resulted quantity</mat-label>
+        <input matInput formControlName="resultedQuantity" placeholder="resulted quantity" />
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext (click)="saveReceipe()">Save</button>
+      </div>
+    </form>
   </mat-step>
   <mat-step>
     <ng-template matStepLabel>Done</ng-template>

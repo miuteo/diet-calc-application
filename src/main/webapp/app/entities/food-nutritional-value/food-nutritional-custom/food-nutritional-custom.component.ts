@@ -23,6 +23,7 @@ export class FoodNutritionalCustomComponent implements OnInit {
 
   inputControl = new FormControl();
   filteredOptions: Observable<IFoodNutritionalValue[]>;
+  savedReceip: IFoodNutritionalValue | null;
 
   constructor(private _formBuilder: FormBuilder, private foodNutritionalValueService: FoodNutritionalValueService) {}
 
@@ -30,8 +31,9 @@ export class FoodNutritionalCustomComponent implements OnInit {
     this.nameFormGroup = this._formBuilder.group({
       nameCtrl: ['', Validators.required],
     });
-    this.secondFormGroup = this._formBuilder.group({
-      secondCtrl: ['', Validators.required],
+
+    this.thirdFormGroup = this._formBuilder.group({
+      resultedQuantity: ['', Validators.required],
     });
 
     this.filteredOptions = this.inputControl.valueChanges.pipe(
@@ -44,13 +46,14 @@ export class FoodNutritionalCustomComponent implements OnInit {
 
   _filter(value: string): IFoodNutritionalValue[] {
     const filterValue = value.toLowerCase();
-    return this.availableIngredients.filter(option => `${option.name}`.toLowerCase().includes(filterValue));
+    return this.availableIngredients.filter(option => option.name!.toLowerCase().includes(filterValue));
   }
 
   createForm(data: IFoodNutritionalValue): FormGroup {
     return new FormGroup(
       {
         name: new FormControl(data.name),
+        id: new FormControl(data.id),
         weight: new FormControl(''),
       },
       Validators.required
@@ -70,5 +73,17 @@ export class FoodNutritionalCustomComponent implements OnInit {
       }
     }
     this.inputControl.setValue('');
+  }
+
+  saveReceipe(): void {
+    const req: any = {
+      name: this.nameFormGroup.value.nameCtrl,
+      resulted: this.thirdFormGroup.value.resultedQuantity,
+      ingredientList: this.insertedIngredients.data.map(x => ({
+        id: x.id,
+        weight: x.form.controls.weight.value,
+      })),
+    };
+    this.foodNutritionalValueService.createCustomReceipe(req).subscribe(x => (this.savedReceip = x.body));
   }
 }

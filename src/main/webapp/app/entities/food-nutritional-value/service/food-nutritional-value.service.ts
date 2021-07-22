@@ -25,6 +25,12 @@ export class FoodNutritionalValueService {
       .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
 
+  createCustomReceipe(req: any): Observable<EntityResponseType> {
+    return this.http
+      .post<IFoodNutritionalValue>(this.resourceUrl + '/createCustom', req, { observe: 'response' })
+      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+  }
+
   update(foodNutritionalValue: IFoodNutritionalValue): Observable<EntityResponseType> {
     const copy = this.convertDateFromClient(foodNutritionalValue);
     return this.http
