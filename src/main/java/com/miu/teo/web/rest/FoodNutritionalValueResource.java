@@ -2,6 +2,8 @@ package com.miu.teo.web.rest;
 
 import com.miu.teo.domain.FoodNutritionalValue;
 import com.miu.teo.repository.FoodNutritionalValueRepository;
+import com.miu.teo.service.FoodNutritionalValueService;
+import com.miu.teo.service.dto.FoodNutritionalCustomDTO;
 import com.miu.teo.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -34,9 +36,14 @@ public class FoodNutritionalValueResource {
     private String applicationName;
 
     private final FoodNutritionalValueRepository foodNutritionalValueRepository;
+    private final FoodNutritionalValueService foodNutritionalValueService;
 
-    public FoodNutritionalValueResource(FoodNutritionalValueRepository foodNutritionalValueRepository) {
+    public FoodNutritionalValueResource(
+        FoodNutritionalValueRepository foodNutritionalValueRepository,
+        FoodNutritionalValueService foodNutritionalValueService
+    ) {
         this.foodNutritionalValueRepository = foodNutritionalValueRepository;
+        this.foodNutritionalValueService = foodNutritionalValueService;
     }
 
     /**
@@ -55,6 +62,26 @@ public class FoodNutritionalValueResource {
         }
         foodNutritionalValue.setDi(Instant.now());
         FoodNutritionalValue result = foodNutritionalValueRepository.save(foodNutritionalValue);
+        return ResponseEntity
+            .created(new URI("/api/food-nutritional-values/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+            .body(result);
+    }
+
+    /**
+     * {@code POST  /food-nutritional-values/createCustom} : Create a new custom foodNutritionalValue.
+     *
+     * @param foodNutritionalCustom will be converted to foodNutritionalValue to create.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new foodNutritionalValue, or with status {@code 400 (Bad Request)} if the foodNutritionalValue has already an ID.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     */
+    @PostMapping("/food-nutritional-values/createCustom")
+    public ResponseEntity<FoodNutritionalValue> createFoodNutritionalValueCustom(
+        @RequestBody FoodNutritionalCustomDTO foodNutritionalCustom
+    ) throws URISyntaxException {
+        log.debug("REST request to save FoodNutritionalCustomDTO : {}", foodNutritionalCustom);
+
+        FoodNutritionalValue result = foodNutritionalValueService.createFoodNutritionalValue(foodNutritionalCustom);
         return ResponseEntity
             .created(new URI("/api/food-nutritional-values/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
