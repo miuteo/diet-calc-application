@@ -17,6 +17,7 @@ export class FoodNutritionalCustomComponent implements OnInit {
   secondFormGroup: FormGroup;
   thirdFormGroup: FormGroup;
   isEditable = true;
+  okResponse = false;
   insertedIngredients: MatTableDataSource<any> = new MatTableDataSource<any>();
   availableIngredients: IFoodNutritionalValue[] = [];
   displayedColumns: string[] = ['name', 'weight'];
@@ -84,6 +85,11 @@ export class FoodNutritionalCustomComponent implements OnInit {
         weight: x.form.controls.weight.value,
       })),
     };
-    this.foodNutritionalValueService.createCustomReceipe(req).subscribe(x => (this.savedReceip = x.body));
+    this.foodNutritionalValueService.createCustomReceipe(req).subscribe(response => {
+      if (response.ok) {
+        this.okResponse = true;
+        this.savedReceip = response.body;
+      }
+    });
   }
 }
