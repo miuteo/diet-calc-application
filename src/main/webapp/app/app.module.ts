@@ -31,6 +31,8 @@ import { ErrorComponent } from './layouts/error/error.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
+import { LoadingSpinnerComponent } from './core/util/loading-spinner/loading-spinner.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   imports: [
@@ -59,6 +61,7 @@ import { MatNativeDateModule } from '@angular/material/core';
         useFactory: missingTranslationHandler,
       },
     }),
+    MatProgressSpinnerModule,
   ],
   providers: [
     Title,
@@ -66,7 +69,15 @@ import { MatNativeDateModule } from '@angular/material/core';
     { provide: NgbDateAdapter, useClass: NgbDateDayjsAdapter },
     httpInterceptorProviders,
   ],
-  declarations: [MainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, ActiveMenuDirective, FooterComponent],
+  declarations: [
+    MainComponent,
+    NavbarComponent,
+    ErrorComponent,
+    PageRibbonComponent,
+    ActiveMenuDirective,
+    FooterComponent,
+    LoadingSpinnerComponent,
+  ],
   bootstrap: [MainComponent],
 })
 export class AppModule {

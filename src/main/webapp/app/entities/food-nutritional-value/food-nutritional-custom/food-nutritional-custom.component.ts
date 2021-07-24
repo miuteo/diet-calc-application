@@ -6,6 +6,8 @@ import { map, startWith } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete/autocomplete';
 import { FoodNutritionalValueService } from '../service/food-nutritional-value.service';
 import { IFoodNutritionalValue } from '../food-nutritional-value.model';
+import { MatDialog } from '@angular/material/dialog';
+import { LoadingSpinnerComponent } from '../../../core/util/loading-spinner/loading-spinner.component';
 
 @Component({
   selector: 'jhi-food-nutritional-custom',
@@ -26,7 +28,11 @@ export class FoodNutritionalCustomComponent implements OnInit {
   filteredOptions: Observable<IFoodNutritionalValue[]>;
   savedReceip: IFoodNutritionalValue | null;
 
-  constructor(private _formBuilder: FormBuilder, private foodNutritionalValueService: FoodNutritionalValueService) {}
+  constructor(
+    private _formBuilder: FormBuilder,
+    private foodNutritionalValueService: FoodNutritionalValueService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.nameFormGroup = this._formBuilder.group({
@@ -77,6 +83,7 @@ export class FoodNutritionalCustomComponent implements OnInit {
   }
 
   saveReceipe(): void {
+    this.dialog.open(LoadingSpinnerComponent, { panelClass: 'transparent-panel' });
     const req: any = {
       name: this.nameFormGroup.value.nameCtrl,
       resulted: this.thirdFormGroup.value.resultedQuantity,
@@ -85,11 +92,16 @@ export class FoodNutritionalCustomComponent implements OnInit {
         weight: x.form.controls.weight.value,
       })),
     };
-    this.foodNutritionalValueService.createCustomReceipe(req).subscribe(response => {
-      if (response.ok) {
-        this.okResponse = true;
-        this.savedReceip = response.body;
-      }
-    });
+    this.foodNutritionalValueService.createCustomReceipe(req).subscribe(
+      response => {
+        if (response.ok) {
+          this.okResponse = true;
+          this.savedReceip = response.body;
+          this.isEditable = false;
+        }
+      },
+      error => this.dialog.closeAll(),
+      () => this.dialog.closeAll()
+    );
   }
 }
