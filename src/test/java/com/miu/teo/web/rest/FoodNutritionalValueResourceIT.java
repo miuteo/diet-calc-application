@@ -142,7 +142,7 @@ class FoodNutritionalValueResourceIT {
         List<FoodNutritionalValue> foodNutritionalValueList = foodNutritionalValueRepository.findAll();
         assertThat(foodNutritionalValueList).hasSize(databaseSizeBeforeCreate + 1);
         FoodNutritionalValue testFoodNutritionalValue = foodNutritionalValueList.get(foodNutritionalValueList.size() - 1);
-        assertThat(testFoodNutritionalValue.getDi()).isEqualTo(DEFAULT_DI);
+        assertThat(testFoodNutritionalValue.getDi()).isNotEqualTo(DEFAULT_DI).isNotNull();
         assertThat(testFoodNutritionalValue.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testFoodNutritionalValue.getProtein()).isEqualTo(DEFAULT_PROTEIN);
         assertThat(testFoodNutritionalValue.getProteinCal()).isEqualTo(DEFAULT_PROTEIN_CAL);

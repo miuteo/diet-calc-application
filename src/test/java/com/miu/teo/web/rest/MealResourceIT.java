@@ -97,17 +97,19 @@ class MealResourceIT {
     @Transactional
     void createMeal() throws Exception {
         int databaseSizeBeforeCreate = mealRepository.findAll().size();
+        Instant beforeCreate = Instant.now();
         // Create the Meal
         restMealMockMvc
             .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(meal)))
             .andExpect(status().isCreated());
 
+        Instant afterCreate = Instant.now();
         // Validate the Meal in the database
         List<Meal> mealList = mealRepository.findAll();
         assertThat(mealList).hasSize(databaseSizeBeforeCreate + 1);
         Meal testMeal = mealList.get(mealList.size() - 1);
         assertThat(testMeal.getMealTime()).isEqualTo(DEFAULT_MEAL_TIME);
-        assertThat(testMeal.getDi()).isEqualTo(DEFAULT_DI);
+        assertThat(testMeal.getDi()).isBetween(beforeCreate, afterCreate);
     }
 
     @Test
@@ -149,6 +151,8 @@ class MealResourceIT {
     @Transactional
     void getAllMeals() throws Exception {
         // Initialize the database
+        Instant now = Instant.now();
+        meal.setDi(now);
         mealRepository.saveAndFlush(meal);
 
         // Get all the mealList
@@ -158,7 +162,7 @@ class MealResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(meal.getId().intValue())))
             .andExpect(jsonPath("$.[*].mealTime").value(hasItem(DEFAULT_MEAL_TIME.toString())))
-            .andExpect(jsonPath("$.[*].di").value(hasItem(DEFAULT_DI.toString())));
+            .andExpect(jsonPath("$.[*].di").value(hasItem(now.toString())));
     }
 
     @Test

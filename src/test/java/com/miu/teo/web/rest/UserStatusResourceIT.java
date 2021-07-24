@@ -6,11 +6,15 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.miu.teo.IntegrationTest;
+import com.miu.teo.domain.User;
 import com.miu.teo.domain.UserStatus;
+import com.miu.teo.repository.UserRepository;
 import com.miu.teo.repository.UserStatusRepository;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -60,12 +64,16 @@ class UserStatusResourceIT {
     private UserStatusRepository userStatusRepository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private EntityManager em;
 
     @Autowired
     private MockMvc restUserStatusMockMvc;
 
     private UserStatus userStatus;
+    private User user;
 
     /**
      * Create an entity for this test.
@@ -73,7 +81,7 @@ class UserStatusResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static UserStatus createEntity(EntityManager em) {
+    public static UserStatus createEntity(EntityManager em, User user) {
         UserStatus userStatus = new UserStatus()
             .weight(DEFAULT_WEIGHT)
             .proteinNeed(DEFAULT_PROTEIN_NEED)
@@ -81,7 +89,8 @@ class UserStatusResourceIT {
             .fatNeed(DEFAULT_FAT_NEED)
             .calFatNeed(DEFAULT_CAL_FAT_NEED)
             .carbohydrateNeed(DEFAULT_CARBOHYDRATE_NEED)
-            .calCarbohydrateNeed(DEFAULT_CAL_CARBOHYDRATE_NEED);
+            .calCarbohydrateNeed(DEFAULT_CAL_CARBOHYDRATE_NEED)
+            .user(user);
         return userStatus;
     }
 
@@ -105,7 +114,9 @@ class UserStatusResourceIT {
 
     @BeforeEach
     public void initTest() {
-        userStatus = createEntity(em);
+        user = UserResourceIT.createEntity(em);
+        userRepository.save(user);
+        userStatus = createEntity(em, user);
     }
 
     @Test
@@ -118,16 +129,32 @@ class UserStatusResourceIT {
             .andExpect(status().isCreated());
 
         // Validate the UserStatus in the database
-        List<UserStatus> userStatusList = userStatusRepository.findAll();
-        assertThat(userStatusList).hasSize(databaseSizeBeforeCreate + 1);
+        List<UserStatus> userStatusList = userStatusRepository
+            .findAll()
+            .stream()
+            .filter(userStatus -> user.equals(userStatus.getUser()))
+            .collect(Collectors.toList());
+        assertThat(userStatusList).hasSize(1);
         UserStatus testUserStatus = userStatusList.get(userStatusList.size() - 1);
         assertThat(testUserStatus.getWeight()).isEqualTo(DEFAULT_WEIGHT);
-        assertThat(testUserStatus.getProteinNeed()).isEqualTo(DEFAULT_PROTEIN_NEED);
-        assertThat(testUserStatus.getCalProteinNeed()).isEqualTo(DEFAULT_CAL_PROTEIN_NEED);
-        assertThat(testUserStatus.getFatNeed()).isEqualTo(DEFAULT_FAT_NEED);
-        assertThat(testUserStatus.getCalFatNeed()).isEqualTo(DEFAULT_CAL_FAT_NEED);
-        assertThat(testUserStatus.getCarbohydrateNeed()).isEqualTo(DEFAULT_CARBOHYDRATE_NEED);
-        assertThat(testUserStatus.getCalCarbohydrateNeed()).isEqualTo(DEFAULT_CAL_CARBOHYDRATE_NEED);
+
+        double weight = userStatus.getWeight();
+        int cal = (int) Math.round(21 * weight);
+        double proteinNeed = (int) Math.round(2 * weight);
+        double calProteinNeed = 4 * proteinNeed;
+
+        double calFatNeed = (int) Math.round(cal * 0.25);
+        double fatNeed = calFatNeed / 9;
+
+        double calCarbohydrateNeed = cal - calProteinNeed - calFatNeed;
+        double carbohydrateNeed = calCarbohydrateNeed / 4;
+
+        assertThat(testUserStatus.getProteinNeed()).isEqualTo((int) proteinNeed);
+        assertThat(testUserStatus.getCalProteinNeed()).isEqualTo((int) calProteinNeed);
+        assertThat(testUserStatus.getFatNeed()).isEqualTo((int) fatNeed);
+        assertThat(testUserStatus.getCalFatNeed()).isEqualTo((int) calFatNeed);
+        assertThat(testUserStatus.getCarbohydrateNeed()).isEqualTo((int) carbohydrateNeed);
+        assertThat(testUserStatus.getCalCarbohydrateNeed()).isEqualTo((int) calCarbohydrateNeed);
     }
 
     @Test

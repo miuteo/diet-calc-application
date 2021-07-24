@@ -8,7 +8,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.miu.teo.IntegrationTest;
 import com.miu.teo.domain.Food;
 import com.miu.teo.domain.FoodNutritionalValue;
+import com.miu.teo.domain.Meal;
 import com.miu.teo.repository.FoodRepository;
+import com.miu.teo.repository.MealRepository;
+import com.miu.teo.repository.UserRepository;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -32,7 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 @WithMockUser
 class FoodResourceIT {
 
-    private static final Instant DEFAULT_DI = Instant.ofEpochMilli(0L);
+    private static final Instant DEFAULT_DI = Instant.now().minusSeconds(5);
     private static final Instant UPDATED_DI = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     private static final Integer DEFAULT_QUANTITY = 1;
@@ -41,11 +44,17 @@ class FoodResourceIT {
     private static final String ENTITY_API_URL = "/api/foods";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
-    private static Random random = new Random();
+    private static final Random random = new Random();
     private static AtomicLong count = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
 
     @Autowired
     private FoodRepository foodRepository;
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    MealRepository mealRepository;
 
     @Autowired
     private EntityManager em;
@@ -99,23 +108,28 @@ class FoodResourceIT {
 
     @BeforeEach
     public void initTest() {
+        Meal mealResource = MealResourceIT.createEntity(em);
+        mealRepository.save(mealResource);
         food = createEntity(em);
+        food.setMeal(mealResource);
     }
 
     @Test
     @Transactional
     void createFood() throws Exception {
         int databaseSizeBeforeCreate = foodRepository.findAll().size();
+        Instant beforeCreateDi = Instant.now();
+
         // Create the Food
         restFoodMockMvc
             .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(food)))
             .andExpect(status().isCreated());
-
+        Instant afterCreateDi = Instant.now();
         // Validate the Food in the database
         List<Food> foodList = foodRepository.findAll();
         assertThat(foodList).hasSize(databaseSizeBeforeCreate + 1);
         Food testFood = foodList.get(foodList.size() - 1);
-        assertThat(testFood.getDi()).isEqualTo(DEFAULT_DI);
+        assertThat(testFood.getDi()).isBetween(beforeCreateDi, afterCreateDi);
         assertThat(testFood.getQuantity()).isEqualTo(DEFAULT_QUANTITY);
     }
 
