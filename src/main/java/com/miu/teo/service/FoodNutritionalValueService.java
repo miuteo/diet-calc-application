@@ -50,7 +50,9 @@ public class FoodNutritionalValueService {
             .stream()
             .collect(Collectors.toMap(IngredientCustomDTO::getId, IngredientCustomDTO::getWeight));
 
-        ingredientsList.forEach(ingredient -> addMacroNutritionalValues(foodNutritionalComputed, ingredient, ingredientWeightMap));
+        ingredientsList.forEach(
+            ingredient -> addMacroNutritionalValues(foodNutritionalComputed, ingredient, ingredientWeightMap.get(ingredient.getId()))
+        );
 
         return foodNutritionalComputed;
     }
@@ -58,9 +60,8 @@ public class FoodNutritionalValueService {
     private void addMacroNutritionalValues(
         FoodNutritionalValue foodNutritionalComputed,
         FoodNutritionalValue ingredient,
-        Map<Long, Double> ingredientWeightMap
+        double ingredientWeight
     ) {
-        double ingredientWeight = ingredientWeightMap.get(ingredient.getId());
         addMacro(
             foodNutritionalComputed::setProtein,
             foodNutritionalComputed::getProtein,
