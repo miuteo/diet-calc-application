@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -37,7 +37,7 @@ export class FoodNutritionalCustomComponent implements OnInit {
 
   ngOnInit(): void {
     this.nameFormGroup = this._formBuilder.group({
-      nameCtrl: ['', [Validators.required, Validators.minLength(3)]],
+      nameCtrl: ['', [Validators.required, Validators.minLength(3), this.forbiddenReceipNameValidator()]],
     });
 
     this.formArray = this._formBuilder.array([], Validators.required);
@@ -64,7 +64,7 @@ export class FoodNutritionalCustomComponent implements OnInit {
     return this.availableIngredients.filter(option => option.name!.toLowerCase().includes(filterValue));
   }
 
-  createForm(data: IFoodNutritionalValue): FormControl {
+  createForm(): FormControl {
     const formControl = new FormControl('', [Validators.required, Validators.pattern('[0-9]*')]);
     this.formArray.push(formControl);
     return formControl;
@@ -77,12 +77,24 @@ export class FoodNutritionalCustomComponent implements OnInit {
       const ingredient = searchResult[0];
       const alreadyInserted = this.insertedIngredients.data.filter(x => x.name === ingredientName).length > 0;
       if (!alreadyInserted) {
-        this.insertedIngredients.data.push({ ...ingredient, form: this.createForm(ingredient) });
+        this.insertedIngredients.data.push({ ...ingredient, form: this.createForm() });
         this.availableIngredients = this.availableIngredients.filter(x => x !== ingredient);
         this.insertedIngredients._updateChangeSubscription();
       }
     }
     this.inputControl.setValue('');
+  }
+
+  forbiddenReceipNameValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const newIngredientNameLowerCase = control.value.toLocaleLowerCase();
+      return this.availableIngredients
+        .map(ingredient => ingredient.name)
+        .map(ingredientName => ingredientName?.toLocaleLowerCase())
+        .find(ingredientName => ingredientName === newIngredientNameLowerCase)
+        ? { receipeNameAlreadyTake: { value: control.value } }
+        : null;
+    };
   }
 
   saveReceipe(): void {
