@@ -36,7 +36,7 @@ export class FoodNutritionalCustomComponent implements OnInit {
 
   ngOnInit(): void {
     this.nameFormGroup = this._formBuilder.group({
-      nameCtrl: ['', Validators.required],
+      nameCtrl: ['', [Validators.required, Validators.minLength(3)]],
     });
 
     this.thirdFormGroup = this._formBuilder.group({

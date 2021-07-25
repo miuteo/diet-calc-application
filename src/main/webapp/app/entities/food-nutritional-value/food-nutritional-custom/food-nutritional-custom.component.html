@@ -1,5 +1,5 @@
-<mat-stepper [orientation]="'vertical'" #stepper>
-  <mat-step [editable]="isEditable">
+<mat-stepper [orientation]="'vertical'" #stepper [linear]="true">
+  <mat-step [editable]="isEditable" [stepControl]="nameFormGroup">
     <form [formGroup]="nameFormGroup">
       <ng-template matStepLabel>Fill your recipe name</ng-template>
       <mat-form-field appearance="fill">
