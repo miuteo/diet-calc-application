@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -25,6 +25,7 @@ export class FoodNutritionalCustomComponent implements OnInit {
   displayedColumns: string[] = ['name', 'weight'];
 
   inputControl = new FormControl();
+  formArray: FormArray;
   filteredOptions: Observable<IFoodNutritionalValue[]>;
   savedReceip: IFoodNutritionalValue | null;
 
@@ -39,8 +40,15 @@ export class FoodNutritionalCustomComponent implements OnInit {
       nameCtrl: ['', [Validators.required, Validators.minLength(3)]],
     });
 
+    this.formArray = this._formBuilder.array([], Validators.required);
+
+    this.secondFormGroup = this._formBuilder.group({
+      inputControl: this.inputControl,
+      formArray: this.formArray,
+    });
+
     this.thirdFormGroup = this._formBuilder.group({
-      resultedQuantity: ['', Validators.required],
+      resultedQuantity: ['', [Validators.required, Validators.pattern('[0-9]*')]],
     });
 
     this.filteredOptions = this.inputControl.valueChanges.pipe(
@@ -56,15 +64,10 @@ export class FoodNutritionalCustomComponent implements OnInit {
     return this.availableIngredients.filter(option => option.name!.toLowerCase().includes(filterValue));
   }
 
-  createForm(data: IFoodNutritionalValue): FormGroup {
-    return new FormGroup(
-      {
-        name: new FormControl(data.name),
-        id: new FormControl(data.id),
-        weight: new FormControl(''),
-      },
-      Validators.required
-    );
+  createForm(data: IFoodNutritionalValue): FormControl {
+    const formControl = new FormControl('', [Validators.required, Validators.pattern('[0-9]*')]);
+    this.formArray.push(formControl);
+    return formControl;
   }
 
   addIngredientToList(event: MatAutocompleteSelectedEvent): void {
@@ -89,7 +92,7 @@ export class FoodNutritionalCustomComponent implements OnInit {
       resulted: this.thirdFormGroup.value.resultedQuantity,
       ingredientList: this.insertedIngredients.data.map(x => ({
         id: x.id,
-        weight: x.form.controls.weight.value,
+        weight: x.form.value,
       })),
     };
     this.foodNutritionalValueService.createCustomReceipe(req).subscribe(

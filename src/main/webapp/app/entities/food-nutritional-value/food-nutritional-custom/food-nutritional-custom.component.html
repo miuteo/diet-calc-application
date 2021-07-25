@@ -7,49 +7,49 @@
         <input matInput formControlName="nameCtrl" placeholder="Ex: mexican mix" />
       </mat-form-field>
       <div>
-        <button mat-button matStepperNext>Next</button>
+        <button mat-button matStepperNext [disabled]="!nameFormGroup.valid">Next</button>
       </div>
     </form>
   </mat-step>
 
-  <mat-step [editable]="isEditable">
+  <mat-step [editable]="isEditable" [stepControl]="secondFormGroup">
     <ng-template matStepLabel>Add your ingredients</ng-template>
 
-    <form class="example-form">
+    <form class="example-form" [formGroup]="secondFormGroup">
       <mat-form-field class="example-full-width" appearance="fill">
         <mat-label>Ingredient</mat-label>
-        <input type="text" placeholder="Type your ingredient" matInput [formControl]="inputControl" [matAutocomplete]="auto" />
+        <input type="text" placeholder="Type your ingredient" matInput formControlName="inputControl" [matAutocomplete]="auto" />
         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="addIngredientToList($event)">
           <mat-option *ngFor="let option of filteredOptions | async" [value]="option.name">
             {{ option.name }}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
+
+      <table mat-table [dataSource]="insertedIngredients" *ngIf="insertedIngredients.data.length > 0">
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Name</th>
+          <td mat-cell *matCellDef="let user">{{ user.name }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="weight">
+          <th mat-header-cell *matHeaderCellDef>Weight</th>
+          <td mat-cell *matCellDef="let user; let i = index">
+            <form formArrayName="formArray">
+              <mat-form-field appearance="fill">
+                <input matInput [formControlName]="i" placeholder="Ex: 100gr" />
+              </mat-form-field>
+            </form>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
     </form>
-
-    <table mat-table [dataSource]="insertedIngredients" *ngIf="insertedIngredients.data.length > 0">
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef>Name</th>
-        <td mat-cell *matCellDef="let user">{{ user.name }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="weight">
-        <th mat-header-cell *matHeaderCellDef>Weight</th>
-        <td mat-cell *matCellDef="let user">
-          <form [formGroup]="user.form">
-            <mat-form-field appearance="fill">
-              <input matInput formControlName="weight" placeholder="Ex: 100gr" />
-            </mat-form-field>
-          </form>
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-    </table>
     <div>
       <button mat-button matStepperPrevious>Back</button>
-      <button mat-button matStepperNext>Next</button>
+      <button mat-button matStepperNext [disabled]="!secondFormGroup.valid">Next</button>
     </div>
   </mat-step>
   <mat-step [stepControl]="thirdFormGroup" [editable]="isEditable">
@@ -61,7 +61,7 @@
       </mat-form-field>
       <div>
         <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext (click)="saveReceipe()">Save</button>
+        <button mat-button [disabled]="!thirdFormGroup.valid" matStepperNext (click)="saveReceipe()">Save</button>
       </div>
     </form>
   </mat-step>
